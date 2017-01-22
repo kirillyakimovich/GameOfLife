@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="GameOfLife" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fyX-Nr-IEN" customClass="GridView" customModule="GameOfLife" customModuleProvider="target">
+                                <rect key="frame" x="24" y="28" width="327" height="327"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="fyX-Nr-IEN" secondAttribute="height" multiplier="1:1" id="Ajw-zn-9sO"/>
+                                </constraints>
+                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="j4Y-BL-F5A">
+                                <rect key="frame" x="128.5" y="405" width="118" height="90"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eJl-Hr-E7K" userLabel="State Button">
+                                        <rect key="frame" x="0.0" y="0.0" width="118" height="30"/>
+                                        <state key="normal" title="State"/>
+                                        <connections>
+                                            <action selector="toggle:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MQK-2b-pUP"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dbt-yp-YCz">
+                                        <rect key="frame" x="0.0" y="30" width="118" height="30"/>
+                                        <state key="normal" title="Step"/>
+                                        <connections>
+                                            <action selector="touchOnStep:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5cn-Em-o8f"/>
+                                        </connections>
+                                    </button>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="bOL-1Z-1jW">
+                                        <rect key="frame" x="-2" y="60" width="122" height="31"/>
+                                    </slider>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="j4Y-BL-F5A" firstAttribute="centerY" secondItem="fyX-Nr-IEN" secondAttribute="centerY" id="2hI-Rt-dc7"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="fyX-Nr-IEN" secondAttribute="bottom" constant="8" id="Ib0-yC-TMx"/>
+                            <constraint firstItem="fyX-Nr-IEN" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="8" id="OVd-6p-RtP"/>
+                            <constraint firstItem="j4Y-BL-F5A" firstAttribute="centerX" secondItem="fyX-Nr-IEN" secondAttribute="centerX" id="PCc-zd-SDK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="fyX-Nr-IEN" secondAttribute="trailing" constant="8" id="V5x-rm-JE7"/>
+                            <constraint firstItem="j4Y-BL-F5A" firstAttribute="top" secondItem="fyX-Nr-IEN" secondAttribute="bottom" constant="50" id="cPS-Nu-DTQ"/>
+                            <constraint firstItem="fyX-Nr-IEN" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="cas-sh-vXY"/>
+                            <constraint firstItem="fyX-Nr-IEN" firstAttribute="trailing" secondItem="j4Y-BL-F5A" secondAttribute="leading" constant="-50" id="fZh-m3-bf1"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="V5x-rm-JE7"/>
+                                <exclude reference="fZh-m3-bf1"/>
+                                <exclude reference="Ib0-yC-TMx"/>
+                                <exclude reference="2hI-Rt-dc7"/>
+                                <exclude reference="PCc-zd-SDK"/>
+                                <exclude reference="cPS-Nu-DTQ"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=compact-widthClass=compact">
+                            <mask key="constraints">
+                                <include reference="fZh-m3-bf1"/>
+                                <include reference="Ib0-yC-TMx"/>
+                                <include reference="2hI-Rt-dc7"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=compact-widthClass=regular">
+                            <mask key="constraints">
+                                <include reference="fZh-m3-bf1"/>
+                                <include reference="Ib0-yC-TMx"/>
+                                <include reference="2hI-Rt-dc7"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="constraints">
+                                <include reference="V5x-rm-JE7"/>
+                                <include reference="PCc-zd-SDK"/>
+                                <include reference="cPS-Nu-DTQ"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="gridView" destination="fyX-Nr-IEN" id="oqF-wD-yPY"/>
+                        <outlet property="stateButton" destination="eJl-Hr-E7K" id="0LZ-a1-Rdh"/>
+                        <outlet property="stepButton" destination="dbt-yp-YCz" id="Vjz-zS-yiK"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-375.19999999999999" y="49.925037481259373"/>
+        </scene>
+    </scenes>
+</document>
