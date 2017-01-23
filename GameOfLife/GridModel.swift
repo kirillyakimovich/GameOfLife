@@ -17,7 +17,7 @@ class GridModel {
         case alive
         case dead
         
-        func toggled() -> State {
+        func switched() -> State {
             switch self {
             case .alive:
                 return .dead
@@ -25,7 +25,23 @@ class GridModel {
                 return .alive
             }
         }
+        
+        func shouldSwitch(aliveNeighbours: Int) -> Bool {
+            switch self {
+            case .alive:
+                if aliveNeighbours < 2 || aliveNeighbours > 3 {
+                    return true
+                }
+            case .dead:
+                if aliveNeighbours == 3 {
+                    return true
+                }
+            }
+            
+            return false
+        }
     }
+    
     typealias Row = [State]
     typealias Grid = [Row]
     
@@ -48,7 +64,7 @@ class GridModel {
 
 extension GridModel {
     public func toggleAt(x: Int, y: Int) {
-        grid[x][y] = grid[x][y].toggled()
+        grid[x][y] = grid[x][y].switched()
     }
     
     public func isAliveAt(x: Int, y: Int) -> Bool {
@@ -65,19 +81,9 @@ extension GridModel {
             for yIndex in 0..<side {
                 let cell = grid[xIndex][yIndex]
                 let aliveNeighbours = neighBours(x: xIndex, y: yIndex).filter{ $0 == .alive }
-                var requireToggle = false
-                switch cell {
-                case .alive:
-                    if aliveNeighbours.count < 2 || aliveNeighbours.count > 3 {
-                        requireToggle = true
-                    }
-                case .dead:
-                    if aliveNeighbours.count == 3 {
-                        requireToggle = true
-                    }
-                }
-                if requireToggle {
-                    nextGrid[xIndex][yIndex] = nextGrid[xIndex][yIndex].toggled()
+                let shouldSwitch = cell.shouldSwitch(aliveNeighbours: aliveNeighbours.count)
+                if shouldSwitch {
+                    nextGrid[xIndex][yIndex] = nextGrid[xIndex][yIndex].switched()
                 }
             }
         }
