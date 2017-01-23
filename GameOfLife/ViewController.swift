@@ -14,6 +14,11 @@ class ViewController: UIViewController {
     lazy var gridModel: GridModel = {
         return GridModel(side: self.side)
     }()
+    lazy var timeModel: TimeModel = {
+        let model = TimeModel()
+        model.delegate = self
+        return model
+    }()
     
     @IBOutlet weak var gridView: GridView!
     
@@ -26,7 +31,8 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var stateButton: UIButton!
     @IBAction func toggle(_ sender: Any) {
-        gridModel.toggleEvolution()
+        timeModel.isTicking = !timeModel.isTickinggi
+        updateView()
     }
     
     @IBOutlet weak var stepButton: UIButton!
@@ -35,9 +41,9 @@ class ViewController: UIViewController {
     }
     
     func updateView() {
-        stepButton.isEnabled = !gridModel.isEvolving
+        stepButton.isEnabled = !timeModel.isTicking
         var title: String
-        if gridModel.isEvolving {
+        if timeModel.isTicking {
             title = "Stop"
         } else {
             title = "Start"
@@ -48,7 +54,16 @@ class ViewController: UIViewController {
 
 extension ViewController: GridModelDelegate {
     func gridModelUpdated(_ gridModel: GridModel) {
+        if (timeModel.isTicking) {
+            timeModel.isTicking = !gridModel.isStuck
+        }
         updateView()
         gridView.setNeedsDisplay()
+    }
+}
+
+extension ViewController: TimeModelDelegate {
+    func tick(_ timeModel: TimeModel) {
+        gridModel.step()
     }
 }

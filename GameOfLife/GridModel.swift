@@ -31,48 +31,18 @@ class GridModel {
     
     weak var delegate: GridModelDelegate?
     
-    public private(set) var isEvolving = false
-    
     let side: Int
     var grid: Grid {
         didSet {
             delegate?.gridModelUpdated(self)
         }
     }
+    public fileprivate(set) var isStuck = false
     
     init(side: Int) {
         self.side = side
         let sideRow = Row(repeatElement(.dead, count: side))
         self.grid = Grid(repeatElement(sideRow, count: side))
-    }
-    
-    var timer: Timer?
-    func stopEvolving() {
-        if let timer = timer {
-            timer.invalidate()
-        }
-        isEvolving = false
-    }
-    func startEvolving() {
-        if let timer = timer {
-            timer.invalidate()
-        }
-        tick()
-        timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(self.tick), userInfo: nil, repeats: true);
-        isEvolving = true
-    }
-    
-    public func toggleEvolution() {
-        if isEvolving  {
-            stopEvolving()
-        } else {
-            startEvolving()
-        }
-        delegate?.gridModelUpdated(self)
-    }
-    
-    @objc func tick() {
-        step()
     }
 }
 
@@ -111,11 +81,8 @@ extension GridModel {
                 }
             }
         }
-        if isEvolving {
-            if isDead(grid: nextGrid) || grid.elementsEqual(nextGrid, by: ==) {
-                stopEvolving()
-            }
-        }
+        
+        isStuck = isDead(grid: nextGrid) || grid.elementsEqual(nextGrid, by: ==)
         grid = nextGrid
     }
 }
