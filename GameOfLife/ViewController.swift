@@ -31,7 +31,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var stateButton: UIButton!
     @IBAction func toggle(_ sender: Any) {
-        timeModel.isTicking = !timeModel.isTickinggi
+        timeModel.isTicking = !timeModel.isTicking
         updateView()
     }
     
