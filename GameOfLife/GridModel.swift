@@ -48,7 +48,7 @@ class GridModel {
     weak var delegate: GridModelDelegate?
     
     let side: Int
-    var grid: Grid {
+    fileprivate var grid: Grid {
         didSet {
             delegate?.gridModelUpdated(self)
         }
@@ -75,6 +75,14 @@ extension GridModel {
         return grid[x][y] == .dead
     }
     
+    public func isAlive() -> Bool {
+        return isAlive(grid: grid)
+    }
+    
+    public func isDead() -> Bool {
+        return isDead(grid: grid)
+    }
+    
     public func step() {
         var nextGrid = grid
         for xIndex in 0..<side {
@@ -93,6 +101,22 @@ extension GridModel {
     }
 }
 
+extension GridModel: Equatable {
+    static func ==(lhs: GridModel, rhs: GridModel) -> Bool {
+        guard lhs.side == rhs.side else {
+            return false
+        }
+        for xIndex in 0..<lhs.side {
+            for yIndex in 0..<lhs.side {
+                if lhs.grid[xIndex][yIndex] != rhs.grid[xIndex][yIndex] {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+}
+
 extension GridModel {
     public func neighBours(x: Int, y: Int) -> [State] {
         var result = [State]()
@@ -108,12 +132,59 @@ extension GridModel {
         return result
     }
     
-    func isAlive(grid: Grid) -> Bool {
+    fileprivate func isAlive(grid: Grid) -> Bool {
         return !grid.flatMap { $0.filter {$0 == .alive }}.isEmpty
     }
     
-    func isDead(grid: Grid) -> Bool {
+    fileprivate func isDead(grid: Grid) -> Bool {
         return !isAlive(grid: grid)
     }
 }
 
+extension GridModel {
+    func extractSignificantPart() -> GridModel? {
+        var minAliveCoordinate = (x: Int.max, y: Int.max)
+        var maxAliveCoordinate = (x: -1, y: -1)
+        for xIndex in 0..<side {
+            for yIndex in 0..<side {
+                let cell = grid[xIndex][yIndex]
+                if cell == .dead {
+                    continue
+                }
+                
+                if xIndex < minAliveCoordinate.x {
+                    minAliveCoordinate.x = xIndex
+                }
+                if xIndex > maxAliveCoordinate.x {
+                    maxAliveCoordinate.x = xIndex
+                }
+                
+                if yIndex < minAliveCoordinate.y {
+                    minAliveCoordinate.y = yIndex
+                }
+                if yIndex > maxAliveCoordinate.y {
+                    maxAliveCoordinate.y = yIndex
+                }
+
+            }
+        }
+        
+        if maxAliveCoordinate == (-1, -1) {
+            return nil
+        }
+        
+        let newSide = max(maxAliveCoordinate.x - minAliveCoordinate.x,
+                          maxAliveCoordinate.y - minAliveCoordinate.y) + 1
+        let extracted = GridModel(side: newSide)
+        for xIndex in 0..<side {
+            for yIndex in 0..<side {
+                let cell = grid[xIndex][yIndex]
+                if cell == .alive {
+                    extracted.toggleAt(x: xIndex, y: yIndex)
+                }
+            }
+        }
+        
+        return extracted
+    }
+}
