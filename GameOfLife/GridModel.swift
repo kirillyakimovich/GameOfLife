@@ -12,8 +12,8 @@ protocol GridModelDelegate: class {
     func gridModelUpdated(_ gridModel: GridModel)
 }
 
-class GridModel {
-    enum State {
+class GridModel: NSObject, NSCoding {
+    enum State: Int {
         case alive
         case dead
         
@@ -60,6 +60,46 @@ class GridModel {
         let sideRow = Row(repeatElement(.dead, count: side))
         self.grid = Grid(repeatElement(sideRow, count: side))
     }
+    
+    // MARK: NSCoding
+    static let gridKey = "grid"
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(primitiveRepresentation(), forKey: GridModel.gridKey)
+    }
+    
+    public required convenience init?(coder aDecoder: NSCoder) {
+        guard let decodedGrid = aDecoder.decodeObject(forKey: GridModel.gridKey) as? [[Int]] else {
+            return nil
+        }
+        self.init(primitive: decodedGrid)
+    }
+    
+    func primitiveRepresentation() -> [[Int]] {
+        var primitiveGrid = [[Int]]()
+        for xIndex in 0..<side {
+            var row = [Int]()
+            for yIndex in 0..<side {
+                let cell = grid[xIndex][yIndex]
+                row.append(cell.rawValue)
+            }
+            primitiveGrid.append(row)
+        }
+        return primitiveGrid
+    }
+    
+    init(primitive: [[Int]]) {
+        var grid = Grid()
+        for xIndex in 0..<primitive.count {
+            var row = Row()
+            for yIndex in 0..<primitive.count {
+                let cell = State.init(rawValue: primitive[xIndex][yIndex]) ?? .dead
+                row.append(cell)
+            }
+            grid.append(row)
+        }
+        self.side = grid.count
+        self.grid = grid
+    }
 }
 
 extension GridModel {
@@ -101,7 +141,7 @@ extension GridModel {
     }
 }
 
-extension GridModel: Equatable {
+extension GridModel/*: Equatable*/ {
     static func ==(lhs: GridModel, rhs: GridModel) -> Bool {
         guard lhs.side == rhs.side else {
             return false
@@ -165,7 +205,7 @@ extension GridModel {
                 if yIndex > maxAliveCoordinate.y {
                     maxAliveCoordinate.y = yIndex
                 }
-
+                
             }
         }
         
