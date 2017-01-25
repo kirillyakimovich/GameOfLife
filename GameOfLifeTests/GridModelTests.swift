@@ -84,4 +84,59 @@ class GridModelTests: XCTestCase {
         XCTAssertEqual(Optional.some(gm), extracted)
     }
     
+    func testExtractedOfSideOne() {
+        let originGM = GridModel(side: 3)
+        originGM.toggleAt(x: 1, y: 1)
+        
+        let targetGM = GridModel(side: 1)
+        targetGM.toggleAt(x: 0, y: 0)
+        
+        let extracted = originGM.extractSignificantPart()
+        XCTAssertEqual(extracted, Optional(targetGM))
+    }
+    
+    func testExtractedOfSideTwo() {
+        /* d d d
+           d a a
+           d a a*/
+        let originGM = GridModel(side: 3)
+        originGM.toggleAt(x: 1, y: 1)
+        originGM.toggleAt(x: 2, y: 2)
+        
+        let targetGM = GridModel(side: 2)
+        targetGM.toggleAt(x: 0, y: 0)
+        targetGM.toggleAt(x: 1, y: 1)
+        
+        let extracted = originGM.extractSignificantPart()
+        XCTAssertEqual(extracted, Optional(targetGM))
+    }
+    
+    func testAnotherExtractedOfSideTwo() {
+        /* d a a
+           d d d
+           d d d*/
+        let originGM = GridModel(side: 3)
+        originGM.toggleAt(x: 0, y: 1)
+        originGM.toggleAt(x: 0, y: 2)
+        
+        let targetGM = GridModel(side: 2)
+        targetGM.toggleAt(x: 0, y: 0)
+        targetGM.toggleAt(x: 0, y: 1)
+        
+        let extracted = originGM.extractSignificantPart()
+        XCTAssertEqual(extracted, Optional(targetGM))
+    }
+    
+    func testAnotherExtractedOfSideThree() {
+        let originGM = GridModel(side: 3)
+        originGM.toggleAt(x: 0, y: 1)
+        originGM.toggleAt(x: 0, y: 2)
+        
+        let targetGM = GridModel(side: 2)
+        targetGM.toggleAt(x: 0, y: 0)
+        targetGM.toggleAt(x: 0, y: 1)
+        
+        let extracted = originGM.extractSignificantPart()
+        XCTAssertEqual(extracted, Optional(targetGM))
+    }
 }
