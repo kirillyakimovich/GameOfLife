@@ -176,10 +176,10 @@ extension GridModel {
         let newSide = max(maxAliveCoordinate.x - minAliveCoordinate.x,
                           maxAliveCoordinate.y - minAliveCoordinate.y) + 1
         let extracted = GridModel(side: newSide)
-        for xIndex in 0..<side {
-            for yIndex in 0..<side {
-                let cell = grid[xIndex][yIndex]
-                if cell == .alive {
+        for xIndex in 0..<newSide {
+            for yIndex in 0..<newSide {
+                let originalCell = grid[minAliveCoordinate.x + xIndex][minAliveCoordinate.y + yIndex]
+                if originalCell == .alive {
                     extracted.toggleAt(x: xIndex, y: yIndex)
                 }
             }
