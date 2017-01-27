@@ -10,8 +10,17 @@ import UIKit
 
 class ViewController: UIViewController {
 
-//    let side = 7
-    var gridModel = GridModel(side: 7)
+    let side = 7
+    var gridModel: GridModel? {
+        didSet {
+            if let gridModel = gridModel {
+                gridModel.delegate = self
+                gridView.gridModel = gridModel
+                gridView.setNeedsDisplay()
+                updateView()
+            }
+        }
+    }
     lazy var timeModel: TimeModel = {
         let model = TimeModel()
         model.delegate = self
@@ -22,9 +31,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        gridView.gridModel = gridModel
-        gridModel.delegate = self
-        updateView()
+        gridModel = GridModel(side: side)
     }
     
     @IBOutlet weak var stateButton: UIButton!
@@ -35,11 +42,11 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var stepButton: UIButton!
     @IBAction func touchOnStep(_ sender: UIButton) {
-        gridModel.step()
+        gridModel?.step()
     }
     
     @IBAction func touchOnSave(_ sender: UIButton) {
-        if let extracted = gridModel.extractSignificantPart() {
+        if let extracted = gridModel?.extractSignificantPart() {
             let data = NSKeyedArchiver.archivedData(withRootObject: extracted)
             UserDefaults.standard.set(data, forKey: "myKey")
         }
@@ -49,10 +56,6 @@ class ViewController: UIViewController {
         if let data = UserDefaults.standard.data(forKey: "myKey") {
             if let model = NSKeyedUnarchiver.unarchiveObject(with: data) as? GridModel {
                 gridModel = model
-                gridModel.delegate = self
-                gridView.gridModel = model
-                gridView.setNeedsDisplay()
-                updateView()
             }
         }
     }
@@ -81,6 +84,6 @@ extension ViewController: GridModelDelegate {
 
 extension ViewController: TimeModelDelegate {
     func tick(_ timeModel: TimeModel) {
-        gridModel.step()
+        gridModel?.step()
     }
 }
