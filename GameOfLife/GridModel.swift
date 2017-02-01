@@ -63,6 +63,10 @@ class GridModel: NSObject, NSCoding {
         self.grid = Grid(repeatElement(sideRow, count: width))
     }
     
+    convenience init(side: Int) {
+        self.init(width: side, height: side)
+    }
+    
     // MARK: NSCoding
     static let gridKey = "grid"
     public func encode(with aCoder: NSCoder) {
