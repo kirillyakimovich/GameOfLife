@@ -154,13 +154,19 @@ extension GridModel/*: Equatable*/ {
             return false
         }
         for xIndex in 0..<lhs.width {
-            for yIndex in 0..<lhs.height {
-                if lhs.grid[xIndex][yIndex] != rhs.grid[xIndex][yIndex] {
-                    return false
-                }
+            if lhs.grid[xIndex] != rhs.grid[xIndex] {
+                return false
             }
         }
         return true
+    }
+    
+    // this one is need to make XCTAssertEqual work
+    override func isEqual(_ object: Any?) -> Bool {
+        guard let other = object as? GridModel else {
+            return false
+        }
+        return self == other
     }
 }
 
