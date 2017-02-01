@@ -31,7 +31,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        gridModel = GridModel(side: side)
+        gridModel = GridModel(width: side, height: side + 3)
     }
     
     @IBOutlet weak var stateButton: UIButton!

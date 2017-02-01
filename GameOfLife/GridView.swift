@@ -34,22 +34,23 @@ class GridView: UIView {
     }
     
     var xStep: CGFloat {
-        return bounds.width / CGFloat(gridModel!.side)
+        return bounds.width / CGFloat(gridModel!.width)
     }
     
     var yStep: CGFloat {
-        return bounds.height / CGFloat(gridModel!.side)
+        return bounds.height / CGFloat(gridModel!.height)
     }
     
     override func draw(_ rect: CGRect) {
-        let side = gridModel!.side
+        let width = gridModel!.width
+        let height = gridModel!.height
         
         let context = UIGraphicsGetCurrentContext()
         
         context?.setLineWidth(1)
     
-        for x in 0..<side {
-            for y in 0..<side {
+        for x in 0..<width {
+            for y in 0..<height {
                 let cellRect = CGRect(x: CGFloat(x) * xStep, y: CGFloat(y) * yStep, width: xStep, height: yStep)
                 if gridModel!.isAliveAt(x: x, y: y) {
                     context?.setFillColor(UIColor.white.cgColor)
@@ -61,14 +62,16 @@ class GridView: UIView {
         }
         
         context?.setStrokeColor(UIColor.white.cgColor)
-        for lineNumber in 1..<side {
+        for lineNumber in 1..<width {
             let x = CGFloat(lineNumber) * xStep
             let top = CGPoint(x: x, y: 0)
             context?.move(to: top)
             let bottom = CGPoint(x: x, y: rect.height)
             context?.addLine(to: bottom)
             context?.strokePath()
-            
+        }
+        
+        for lineNumber in 1..<height {
             let y = CGFloat(lineNumber) * yStep
             let left = CGPoint(x: 0, y: y)
             context?.move(to: left)
