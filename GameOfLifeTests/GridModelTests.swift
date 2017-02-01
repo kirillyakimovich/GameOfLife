@@ -11,8 +11,8 @@ import XCTest
 
 extension GridModel {
     func animate() {
-        for xIndex in 0..<side {
-            for yIndex in 0..<side {
+        for xIndex in 0..<width {
+            for yIndex in 0..<height {
                 if isDeadAt(x: xIndex, y: yIndex) {
                     toggleAt(x: xIndex, y: yIndex)
                 }
@@ -80,7 +80,7 @@ class GridModelTests: XCTestCase {
         let gm = GridModel(side: 2)
         gm.animate()
         let extracted = gm.extractSignificantPart()
-        
+        let tst = Optional(gm) == extracted
         XCTAssertEqual(Optional.some(gm), extracted)
     }
     
@@ -112,29 +112,31 @@ class GridModelTests: XCTestCase {
     }
     
     func testAnotherExtractedOfSideTwo() {
-        /* d a a
-           d d d
+        /* a d d
+           a d d
            d d d*/
         let originGM = GridModel(side: 3)
         originGM.toggleAt(x: 0, y: 1)
         originGM.toggleAt(x: 0, y: 2)
         
-        let targetGM = GridModel(side: 2)
-        targetGM.toggleAt(x: 0, y: 0)
-        targetGM.toggleAt(x: 0, y: 1)
+        let targetGM = GridModel(width: 1, height: 2)
+        targetGM.animate()
         
         let extracted = originGM.extractSignificantPart()
         XCTAssertEqual(extracted, Optional(targetGM))
     }
     
     func testAnotherExtractedOfSideThree() {
+        /* a a a
+           d d d
+           d d d*/
         let originGM = GridModel(side: 3)
-        originGM.toggleAt(x: 0, y: 1)
-        originGM.toggleAt(x: 0, y: 2)
+        originGM.toggleAt(x: 0, y: 0)
+        originGM.toggleAt(x: 1, y: 0)
+        originGM.toggleAt(x: 2, y: 0)
         
-        let targetGM = GridModel(side: 2)
-        targetGM.toggleAt(x: 0, y: 0)
-        targetGM.toggleAt(x: 0, y: 1)
+        let targetGM = GridModel(width: 3, height: 1)
+        targetGM.animate()
         
         let extracted = originGM.extractSignificantPart()
         XCTAssertEqual(extracted, Optional(targetGM))
