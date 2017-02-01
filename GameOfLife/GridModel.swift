@@ -47,7 +47,8 @@ class GridModel: NSObject, NSCoding {
     
     weak var delegate: GridModelDelegate?
     
-    let side: Int
+    let width: Int
+    let height: Int
     fileprivate var grid: Grid {
         didSet {
             delegate?.gridModelUpdated(self)
@@ -55,10 +56,11 @@ class GridModel: NSObject, NSCoding {
     }
     public fileprivate(set) var isStuck = false
     
-    init(side: Int) {
-        self.side = side
-        let sideRow = Row(repeatElement(.dead, count: side))
-        self.grid = Grid(repeatElement(sideRow, count: side))
+    init(width: Int, height: Int) {
+        self.width = width
+        self.height = height
+        let sideRow = Row(repeatElement(.dead, count: height))
+        self.grid = Grid(repeatElement(sideRow, count: width))
     }
     
     // MARK: NSCoding
@@ -76,9 +78,9 @@ class GridModel: NSObject, NSCoding {
     
     func primitiveRepresentation() -> [[Int]] {
         var primitiveGrid = [[Int]]()
-        for xIndex in 0..<side {
+        for xIndex in 0..<width {
             var row = [Int]()
-            for yIndex in 0..<side {
+            for yIndex in 0..<height {
                 let cell = grid[xIndex][yIndex]
                 row.append(cell.rawValue)
             }
@@ -91,13 +93,14 @@ class GridModel: NSObject, NSCoding {
         var grid = Grid()
         for xIndex in 0..<primitive.count {
             var row = Row()
-            for yIndex in 0..<primitive.count {
+            for yIndex in 0..<primitive[xIndex].count {
                 let cell = State.init(rawValue: primitive[xIndex][yIndex]) ?? .dead
                 row.append(cell)
             }
             grid.append(row)
         }
-        self.side = grid.count
+        self.width = primitive.count
+        self.height = primitive[0].count
         self.grid = grid
     }
 }
@@ -125,8 +128,8 @@ extension GridModel {
     
     public func step() {
         var nextGrid = grid
-        for xIndex in 0..<side {
-            for yIndex in 0..<side {
+        for xIndex in 0..<width {
+            for yIndex in 0..<height {
                 let cell = grid[xIndex][yIndex]
                 let aliveNeighbours = neighBours(x: xIndex, y: yIndex).filter{ $0 == .alive }
                 let shouldSwitch = cell.shouldSwitch(aliveNeighbours: aliveNeighbours.count)
@@ -143,11 +146,11 @@ extension GridModel {
 
 extension GridModel/*: Equatable*/ {
     static func ==(lhs: GridModel, rhs: GridModel) -> Bool {
-        guard lhs.side == rhs.side else {
+        guard lhs.width == rhs.width, lhs.height == rhs.height else {
             return false
         }
-        for xIndex in 0..<lhs.side {
-            for yIndex in 0..<lhs.side {
+        for xIndex in 0..<lhs.width {
+            for yIndex in 0..<lhs.height {
                 if lhs.grid[xIndex][yIndex] != rhs.grid[xIndex][yIndex] {
                     return false
                 }
@@ -185,8 +188,8 @@ extension GridModel {
     func extractSignificantPart() -> GridModel? {
         var minAliveCoordinate = (x: Int.max, y: Int.max)
         var maxAliveCoordinate = (x: -1, y: -1)
-        for xIndex in 0..<side {
-            for yIndex in 0..<side {
+        for xIndex in 0..<width {
+            for yIndex in 0..<height {
                 let cell = grid[xIndex][yIndex]
                 if cell == .dead {
                     continue
@@ -213,11 +216,11 @@ extension GridModel {
             return nil
         }
         
-        let newSide = max(maxAliveCoordinate.x - minAliveCoordinate.x,
-                          maxAliveCoordinate.y - minAliveCoordinate.y) + 1
-        let extracted = GridModel(side: newSide)
-        for xIndex in 0..<newSide {
-            for yIndex in 0..<newSide {
+        let newWidth = maxAliveCoordinate.x - minAliveCoordinate.x
+        let newHeight = maxAliveCoordinate.y - minAliveCoordinate.y
+        let extracted = GridModel(width: newWidth + 1, height: newHeight + 1)
+        for xIndex in 0...newWidth {
+            for yIndex in 0...newHeight {
                 let originalCell = grid[minAliveCoordinate.x + xIndex][minAliveCoordinate.y + yIndex]
                 if originalCell == .alive {
                     extracted.toggleAt(x: xIndex, y: yIndex)
