@@ -241,3 +241,10 @@ extension GridModel {
         return extracted
     }
 }
+
+// MARK: CustomStringConvertible
+extension GridModel/*: CustomStringConvertible */{
+    override public var description: String {
+        return RLERepresentation()
+    }
+}
