@@ -80,7 +80,6 @@ class GridModelTests: XCTestCase {
         let gm = GridModel(side: 2)
         gm.animate()
         let extracted = gm.extractSignificantPart()
-        let tst = Optional(gm) == extracted
         XCTAssertEqual(Optional.some(gm), extracted)
     }
     
