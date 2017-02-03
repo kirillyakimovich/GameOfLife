@@ -9,6 +9,10 @@
 import UIKit
 
 class GridView: UIView {
+    var gridColor = UIColor.gray
+    var aliveColor = UIColor.black
+    var deadColor = UIColor.white
+    
     lazy var touchRecognizer: UITapGestureRecognizer = {
         UITapGestureRecognizer(target: self, action: #selector(self.touchAction(_:)) )
     } ()
@@ -53,16 +57,16 @@ class GridView: UIView {
             for y in 0..<height {
                 let cellRect = CGRect(x: CGFloat(x) * xStep, y: CGFloat(y) * yStep, width: xStep, height: yStep)
                 if gridModel!.isAliveAt(x: x, y: y) {
-                    context?.setFillColor(UIColor.white.cgColor)
+                    context?.setFillColor(aliveColor.cgColor)
                 } else {
-                    context?.setFillColor(UIColor.black.cgColor)
+                    context?.setFillColor(deadColor.cgColor)
                 }
                 context?.fill(cellRect)
             }
         }
         
-        context?.setStrokeColor(UIColor.white.cgColor)
-        for lineNumber in 1..<width {
+        context?.setStrokeColor(gridColor.cgColor)
+        for lineNumber in 0...width {
             let x = CGFloat(lineNumber) * xStep
             let top = CGPoint(x: x, y: 0)
             context?.move(to: top)
@@ -71,7 +75,7 @@ class GridView: UIView {
             context?.strokePath()
         }
         
-        for lineNumber in 1..<height {
+        for lineNumber in 0...height {
             let y = CGFloat(lineNumber) * yStep
             let left = CGPoint(x: 0, y: y)
             context?.move(to: left)
