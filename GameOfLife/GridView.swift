@@ -8,6 +8,11 @@
 
 import UIKit
 
+enum DrawingMode {
+    case asIs
+    case square // keeping every frame square. useful when width and height are different
+}
+
 class GridView: UIView {
     var gridColor = UIColor.gray
     var aliveColor = UIColor.black
@@ -19,7 +24,7 @@ class GridView: UIView {
     fileprivate var activeRect: CGRect = CGRect.zero
     
     var gridModel: GridModel?
-    
+    var drawingMode: DrawingMode = .square
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -90,15 +95,30 @@ class GridView: UIView {
     }
     
     override func draw(_ rect: CGRect) {
-        guard let context = UIGraphicsGetCurrentContext() else {
+        guard let context = UIGraphicsGetCurrentContext(), let model = gridModel else {
             return
         }
         
-        let rect = rect.insetBy(dx: 50, dy: 50)
+        var rect = rect
+        if drawingMode == .square {
+            var xInset: CGFloat = 0
+            var yInset: CGFloat = 0
+            
+            switch (model.width, model.height) {
+            case let (width, height) where width < height :
+                let step = stepLength(spread: rect.size.height, dencity: gridModel!.height)
+                xInset = step * CGFloat(height - width) / 2
+            case let (width, height) where width > height :
+                let step = stepLength(spread: rect.size.width, dencity: gridModel!.width)
+                yInset = step * CGFloat(width - height) / 2
+            default: break
+            }
+            rect = rect.insetBy(dx: xInset, dy: yInset)
+        }
         
         activeRect = rect
-        draw(model: gridModel!, at: rect, in: context)
-        drawGrid(for: gridModel!, at: rect, in: context)
+        draw(model: model, at: rect, in: context)
+        drawGrid(for: model, at: rect, in: context)
     }
 }
 
