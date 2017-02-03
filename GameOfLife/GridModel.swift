@@ -66,34 +66,6 @@ class GridModel {
     convenience init(side: Int) {
         self.init(width: side, height: side)
     }
-    
-    func naiveRepresentation() -> [[Int]] {
-        var primitiveGrid = [[Int]]()
-        for xIndex in 0..<width {
-            var row = [Int]()
-            for yIndex in 0..<height {
-                let cell = grid[xIndex][yIndex]
-                row.append(cell.rawValue)
-            }
-            primitiveGrid.append(row)
-        }
-        return primitiveGrid
-    }
-    
-    init(naive: [[Int]]) {
-        var grid = Grid()
-        for xIndex in 0..<naive.count {
-            var row = Row()
-            for yIndex in 0..<naive[xIndex].count {
-                let cell = State.init(rawValue: naive[xIndex][yIndex]) ?? .dead
-                row.append(cell)
-            }
-            grid.append(row)
-        }
-        self.width = naive.count
-        self.height = naive[0].count
-        self.grid = grid
-    }
 }
 
 extension GridModel {
