@@ -9,7 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     let side = 7
     var gridModel: GridModel? {
         didSet {
@@ -46,10 +46,6 @@ class ViewController: UIViewController {
     }
     
     @IBAction func touchOnSave(_ sender: UIButton) {
-        if let extracted = gridModel?.extractSignificantPart() {
-            let data = NSKeyedArchiver.archivedData(withRootObject: extracted)
-            UserDefaults.standard.set(data, forKey: "myKey")
-        }
     }
     
     @IBAction func tapOnLoad(_ sender: UIButton) {
