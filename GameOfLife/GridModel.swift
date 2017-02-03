@@ -12,7 +12,7 @@ protocol GridModelDelegate: class {
     func gridModelUpdated(_ gridModel: GridModel)
 }
 
-class GridModel: NSObject, NSCoding {
+class GridModel {
     enum State: Int {
         case alive
         case dead
@@ -67,20 +67,7 @@ class GridModel: NSObject, NSCoding {
         self.init(width: side, height: side)
     }
     
-    // MARK: NSCoding
-    static let gridKey = "grid"
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(primitiveRepresentation(), forKey: GridModel.gridKey)
-    }
-    
-    public required convenience init?(coder aDecoder: NSCoder) {
-        guard let decodedGrid = aDecoder.decodeObject(forKey: GridModel.gridKey) as? [[Int]] else {
-            return nil
-        }
-        self.init(primitive: decodedGrid)
-    }
-    
-    func primitiveRepresentation() -> [[Int]] {
+    func naiveRepresentation() -> [[Int]] {
         var primitiveGrid = [[Int]]()
         for xIndex in 0..<width {
             var row = [Int]()
@@ -93,18 +80,18 @@ class GridModel: NSObject, NSCoding {
         return primitiveGrid
     }
     
-    init(primitive: [[Int]]) {
+    init(naive: [[Int]]) {
         var grid = Grid()
-        for xIndex in 0..<primitive.count {
+        for xIndex in 0..<naive.count {
             var row = Row()
-            for yIndex in 0..<primitive[xIndex].count {
-                let cell = State.init(rawValue: primitive[xIndex][yIndex]) ?? .dead
+            for yIndex in 0..<naive[xIndex].count {
+                let cell = State.init(rawValue: naive[xIndex][yIndex]) ?? .dead
                 row.append(cell)
             }
             grid.append(row)
         }
-        self.width = primitive.count
-        self.height = primitive[0].count
+        self.width = naive.count
+        self.height = naive[0].count
         self.grid = grid
     }
 }
@@ -148,7 +135,7 @@ extension GridModel {
     }
 }
 
-extension GridModel/*: Equatable*/ {
+extension GridModel: Equatable {
     static func ==(lhs: GridModel, rhs: GridModel) -> Bool {
         guard lhs.width == rhs.width, lhs.height == rhs.height else {
             return false
@@ -159,14 +146,6 @@ extension GridModel/*: Equatable*/ {
             }
         }
         return true
-    }
-    
-    // this one is need to make XCTAssertEqual work
-    override func isEqual(_ object: Any?) -> Bool {
-        guard let other = object as? GridModel else {
-            return false
-        }
-        return self == other
     }
 }
 
@@ -243,8 +222,8 @@ extension GridModel {
 }
 
 // MARK: CustomStringConvertible
-extension GridModel/*: CustomStringConvertible */{
-    override public var description: String {
+extension GridModel: CustomStringConvertible {
+    public var description: String {
         return RLERepresentation()
     }
 }
