@@ -49,9 +49,9 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tapOnLoad(_ sender: UIButton) {
-        if let data = UserDefaults.standard.data(forKey: "myKey") {
-            if let model = NSKeyedUnarchiver.unarchiveObject(with: data) as? GridModel {
-                gridModel = model
+        if let url = Bundle.main.url(forResource: "1beacon", withExtension: "rle", subdirectory: "Patterns") {
+            if let contents = try? String(contentsOf: url) {
+                gridModel = GridModel(with: contents)
             }
         }
     }
