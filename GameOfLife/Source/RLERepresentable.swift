@@ -67,29 +67,28 @@ extension GridModel: RLERepresentable {
             
             let contents = Array(code.dropFirst()).joined()
             let rows = contents.components(separatedBy: "$")
-            for (yIndex, row) in rows.enumerated() {
-                var startXIndex = 0;
-                let scanner = Scanner(string: row)
+            for (row, rowCode) in rows.enumerated() {
+                var startColumn = 0;
+                let scanner = Scanner(string: rowCode)
                 while !scanner.isAtEnd {
                     var runCount = 1
                     scanner.scanInt(&runCount)
                     let range = NSMakeRange(scanner.scanLocation, 1)
-                    let tag = (row as NSString).substring(with: range)
+                    let tag = (rowCode as NSString).substring(with: range)
                     
                     if tag == "o" {
                         if (runCount > 1) {
-                            for xIndex in startXIndex..<(startXIndex + runCount) {
-                                self.toggleAt(x: xIndex, y: yIndex)
+                            for column in startColumn..<(startColumn + runCount) {
+                                self.toggleAt(x: row, y: column)
                             }
                         } else {
-                            self.toggleAt(x: scanner.scanLocation, y: yIndex)
+                            self.toggleAt(x: row, y: scanner.scanLocation)
                         }
                     }
                     scanner.scanLocation += 1
-                    startXIndex += runCount
+                    startColumn += runCount
                 }
             }
-            print(rows)
         } else {
             return nil
         }
