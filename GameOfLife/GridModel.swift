@@ -42,14 +42,11 @@ class GridModel {
         }
     }
     
-    typealias Row = [State]
-    typealias Grid = [Row]
-    
     weak var delegate: GridModelDelegate?
     
     let width: Int
     let height: Int
-    fileprivate var grid: Grid {
+    fileprivate var grid: Grid<State> {
         didSet {
             delegate?.gridModelUpdated(self)
         }
@@ -59,8 +56,7 @@ class GridModel {
     init(width: Int, height: Int) {
         self.width = width
         self.height = height
-        let sideRow = Row(repeatElement(.dead, count: height))
-        self.grid = Grid(repeatElement(sideRow, count: width))
+        self.grid = Grid(width: width, height: height, repeating: .dead)
     }
     
     convenience init(side: Int) {
@@ -70,15 +66,15 @@ class GridModel {
 
 extension GridModel {
     public func toggleAt(x: Int, y: Int) {
-        grid[x][y] = grid[x][y].switched()
+        grid[x, y] = grid[x, y].switched()
     }
     
     public func isAliveAt(x: Int, y: Int) -> Bool {
-        return grid[x][y] == .alive
+        return grid[x, y] == .alive
     }
     
     public func isDeadAt(x: Int, y: Int) -> Bool {
-        return grid[x][y] == .dead
+        return grid[x, y] == .dead
     }
     
     public func isAlive() -> Bool {
@@ -91,33 +87,25 @@ extension GridModel {
     
     public func step() {
         var nextGrid = grid
-        for xIndex in 0..<width {
-            for yIndex in 0..<height {
-                let cell = grid[xIndex][yIndex]
-                let aliveNeighbours = neighBours(x: xIndex, y: yIndex).filter{ $0 == .alive }
+        for row in 0..<height {
+            for column in 0..<width {
+                let cell = grid[row, column]
+                let aliveNeighbours = neighBours(x: row, y: column).filter{ $0 == .alive }
                 let shouldSwitch = cell.shouldSwitch(aliveNeighbours: aliveNeighbours.count)
                 if shouldSwitch {
-                    nextGrid[xIndex][yIndex] = nextGrid[xIndex][yIndex].switched()
+                    nextGrid[row, column] = nextGrid[row, column].switched()
                 }
             }
         }
         
-        isStuck = isDead(grid: nextGrid) || grid.elementsEqual(nextGrid, by: ==)
+        isStuck = isDead(grid: nextGrid) || (grid == nextGrid)
         grid = nextGrid
     }
 }
 
 extension GridModel: Equatable {
     static func ==(lhs: GridModel, rhs: GridModel) -> Bool {
-        guard lhs.width == rhs.width, lhs.height == rhs.height else {
-            return false
-        }
-        for xIndex in 0..<lhs.width {
-            if lhs.grid[xIndex] != rhs.grid[xIndex] {
-                return false
-            }
-        }
-        return true
+        return lhs.grid == rhs.grid
     }
 }
 
@@ -130,44 +118,44 @@ extension GridModel {
                     continue
                 }
                 
-                result.append(grid[cycled: xIndex][cycled: yIndex])
+                result.append(grid[cycledRow: xIndex, cycledColumn: yIndex])
             }
         }
         return result
     }
     
-    fileprivate func isAlive(grid: Grid) -> Bool {
-        return !grid.flatMap { $0.filter {$0 == .alive }}.isEmpty
+    fileprivate func isAlive(grid: Grid<State>) -> Bool {
+        return grid.flatten().filter {$0 == .dead }.isEmpty
     }
     
-    fileprivate func isDead(grid: Grid) -> Bool {
+    fileprivate func isDead(grid: Grid<State>) -> Bool {
         return !isAlive(grid: grid)
     }
 }
 
 extension GridModel {
     func extractSignificantPart() -> GridModel? {
-        var minAliveCoordinate = (x: Int.max, y: Int.max)
-        var maxAliveCoordinate = (x: -1, y: -1)
-        for xIndex in 0..<width {
-            for yIndex in 0..<height {
-                let cell = grid[xIndex][yIndex]
+        var minAliveCoordinate = (row: Int.max, column: Int.max)
+        var maxAliveCoordinate = (row: -1, column: -1)
+        for row in 0..<height {
+            for column in 0..<width {
+                let cell = grid[row, column]
                 if cell == .dead {
                     continue
                 }
                 
-                if xIndex < minAliveCoordinate.x {
-                    minAliveCoordinate.x = xIndex
+                if row < minAliveCoordinate.row {
+                    minAliveCoordinate.row = row
                 }
-                if xIndex > maxAliveCoordinate.x {
-                    maxAliveCoordinate.x = xIndex
+                if row > maxAliveCoordinate.row {
+                    maxAliveCoordinate.row = row
                 }
                 
-                if yIndex < minAliveCoordinate.y {
-                    minAliveCoordinate.y = yIndex
+                if column < minAliveCoordinate.column {
+                    minAliveCoordinate.column = column
                 }
-                if yIndex > maxAliveCoordinate.y {
-                    maxAliveCoordinate.y = yIndex
+                if column > maxAliveCoordinate.column {
+                    maxAliveCoordinate.column = column
                 }
                 
             }
@@ -177,14 +165,15 @@ extension GridModel {
             return nil
         }
         
-        let newWidth = maxAliveCoordinate.x - minAliveCoordinate.x
-        let newHeight = maxAliveCoordinate.y - minAliveCoordinate.y
+        let newHeight = maxAliveCoordinate.row - minAliveCoordinate.row
+        let newWidth = maxAliveCoordinate.column - minAliveCoordinate.column
+
         let extracted = GridModel(width: newWidth + 1, height: newHeight + 1)
-        for xIndex in 0...newWidth {
-            for yIndex in 0...newHeight {
-                let originalCell = grid[minAliveCoordinate.x + xIndex][minAliveCoordinate.y + yIndex]
+        for column in 0...newWidth {
+            for row in 0...newHeight {
+                let originalCell = grid[minAliveCoordinate.row + row, minAliveCoordinate.column + column]
                 if originalCell == .alive {
-                    extracted.toggleAt(x: xIndex, y: yIndex)
+                    extracted.toggleAt(x: row, y: column)
                 }
             }
         }

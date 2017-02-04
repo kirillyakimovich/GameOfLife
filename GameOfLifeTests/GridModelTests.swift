@@ -11,10 +11,10 @@ import XCTest
 
 extension GridModel {
     func animate() {
-        for xIndex in 0..<width {
-            for yIndex in 0..<height {
-                if isDeadAt(x: xIndex, y: yIndex) {
-                    toggleAt(x: xIndex, y: yIndex)
+        for column in 0..<width {
+            for row in 0..<height {
+                if isDeadAt(x: row, y: column) {
+                    toggleAt(x: row, y: column)
                 }
             }
         }

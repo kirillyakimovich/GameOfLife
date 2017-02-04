@@ -78,13 +78,13 @@ class GridView: UIView {
     func draw(model: GridModel, at rect: CGRect, in context: CGContext) {
         let xStep = stepLength(spread: rect.size.width, dencity: model.width)
         let yStep = stepLength(spread: rect.size.height, dencity: model.height)
-        for x in 0..<model.width {
-            for y in 0..<model.height {
-                let cellRect = CGRect(x: rect.minX + CGFloat(x) * xStep,
-                                      y: rect.minY + CGFloat(y) * yStep,
+        for row in 0..<model.height {
+            for column in 0..<model.width {
+                let cellRect = CGRect(x: rect.minX + CGFloat(column) * xStep,
+                                      y: rect.minY + CGFloat(row) * yStep,
                                       width: xStep,
                                       height: yStep)
-                if gridModel!.isAliveAt(x: x, y: y) {
+                if gridModel!.isAliveAt(x: row, y: column) {
                     context.setFillColor(aliveColor.cgColor)
                 } else {
                     context.setFillColor(deadColor.cgColor)
@@ -131,9 +131,9 @@ extension GridView {
         let xStep = stepLength(spread: activeRect.size.width, dencity: gridModel!.width)
         let yStep = stepLength(spread: activeRect.size.height, dencity: gridModel!.height)
 
-        let xIndex = ((location.x - activeRect.minX) / (xStep)).rounded(.towardZero)
-        let yIndex = ((location.y - activeRect.minY) / (yStep)).rounded(.towardZero)
-        gridModel!.toggleAt(x: Int(xIndex), y: Int(yIndex))
+        let column = ((location.x - activeRect.minX) / (xStep)).rounded(.towardZero)
+        let row = ((location.y - activeRect.minY) / (yStep)).rounded(.towardZero)
+        gridModel!.toggleAt(x: Int(row), y: Int(column))
         setNeedsDisplay()
     }
 }
