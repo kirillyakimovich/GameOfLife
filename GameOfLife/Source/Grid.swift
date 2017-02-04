@@ -85,8 +85,8 @@ struct Grid<Element> where Element: Equatable {
         }
     }
     
-    func flatten() -> [Element] {
-        return Array(grid)
+    func contains(_ element: Element) -> Bool {
+        return grid.contains(element)
     }
 }
 

@@ -125,7 +125,7 @@ extension GridModel {
     }
     
     fileprivate func isAlive(grid: Grid<State>) -> Bool {
-        return grid.flatten().filter {$0 == .dead }.isEmpty
+        return grid.contains(.alive)
     }
     
     fileprivate func isDead(grid: Grid<State>) -> Bool {
