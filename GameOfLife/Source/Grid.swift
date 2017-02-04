@@ -32,12 +32,10 @@ struct Grid<Element> where Element: Equatable {
     
     subscript(row: Int, column: Int) -> Element {
         get {
-            print("get (\(width),\(height)) row: \(row), column: \(column), origin: \(row * width  + column), value: \(grid[row * width  + column])")
             return grid[row * width  + column]
         }
         
         set {
-            print("set row: \(row), column: \(column), origin: \(row * width  + column), newValue: \(newValue)")
             grid[row * width + column] = newValue
         }
     }
