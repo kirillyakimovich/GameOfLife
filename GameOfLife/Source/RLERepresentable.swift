@@ -47,7 +47,7 @@ extension RLERepresentable {
     }
 }
 
-extension GridModel: RLERepresentable {
+extension LifeModel: RLERepresentable {
     internal func RLERepresentation() -> String {
         return header(width: self.width, height: self.height)
     }

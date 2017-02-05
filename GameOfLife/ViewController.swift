@@ -11,11 +11,11 @@ import UIKit
 class ViewController: UIViewController {
     
     let side = 7
-    var gridModel: GridModel? {
+    var lifeModel: LifeModel? {
         didSet {
-            if let gridModel = gridModel {
-                gridModel.delegate = self
-                gridView.gridModel = gridModel
+            if let lifeModel = lifeModel {
+                lifeModel.delegate = self
+                gridView.lifeModel = lifeModel
                 gridView.setNeedsDisplay()
                 updateView()
             }
@@ -31,7 +31,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        gridModel = GridModel(width: side, height: side + 3)
+        lifeModel = LifeModel(width: side, height: side + 3)
     }
     
     @IBOutlet weak var stateButton: UIButton!
@@ -42,7 +42,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var stepButton: UIButton!
     @IBAction func touchOnStep(_ sender: UIButton) {
-        gridModel?.step()
+        lifeModel?.step()
     }
     
     @IBAction func touchOnSave(_ sender: UIButton) {
@@ -51,7 +51,7 @@ class ViewController: UIViewController {
     @IBAction func tapOnLoad(_ sender: UIButton) {
         if let url = Bundle.main.url(forResource: "1beacon", withExtension: "rle", subdirectory: "Patterns") {
             if let contents = try? String(contentsOf: url) {
-                gridModel = GridModel(with: contents)
+                lifeModel = LifeModel(with: contents)
             }
         }
     }
@@ -68,9 +68,9 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: GridModelDelegate {
-    func gridModelUpdated(_ gridModel: GridModel) {
-        if (timeModel.isTicking && gridModel.isStuck) {
+extension ViewController: LifeModelDelegate {
+    func LifeModelUpdated(_ lifeModel: LifeModel) {
+        if (timeModel.isTicking && lifeModel.isStuck) {
             timeModel.isTicking = false
         }
         updateView()
@@ -80,6 +80,6 @@ extension ViewController: GridModelDelegate {
 
 extension ViewController: TimeModelDelegate {
     func tick(_ timeModel: TimeModel) {
-        gridModel?.step()
+        lifeModel?.step()
     }
 }

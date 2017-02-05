@@ -23,7 +23,7 @@ class GridView: UIView {
     } ()
     fileprivate var activeRect: CGRect = CGRect.zero
     
-    var gridModel: GridModel?
+    var lifeModel: LifeModel?
     var drawingMode: DrawingMode = .square
     
     override init(frame: CGRect) {
@@ -32,8 +32,8 @@ class GridView: UIView {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        if let model = aDecoder.decodeObject(forKey: "model") as? GridModel {
-            self.gridModel = model
+        if let model = aDecoder.decodeObject(forKey: "model") as? LifeModel {
+            self.lifeModel = model
         }
         super.init(coder: aDecoder)
         self.addGestureRecognizer(touchRecognizer)
@@ -41,14 +41,14 @@ class GridView: UIView {
     
     override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
-        aCoder.encode(gridModel, forKey: "model")
+        aCoder.encode(lifeModel, forKey: "model")
     }
     
     func stepLength(spread: CGFloat, dencity: Int) -> CGFloat{
         return spread / CGFloat(dencity)
     }
     
-    func drawGrid(for model: GridModel, at rect: CGRect, in context: CGContext) {
+    func drawGrid(for model: LifeModel, at rect: CGRect, in context: CGContext) {
         context.setStrokeColor(gridColor.cgColor)
         context.setLineWidth(1)
 
@@ -75,7 +75,7 @@ class GridView: UIView {
         }
     }
     
-    func draw(model: GridModel, at rect: CGRect, in context: CGContext) {
+    func draw(model: LifeModel, at rect: CGRect, in context: CGContext) {
         let xStep = stepLength(spread: rect.size.width, dencity: model.width)
         let yStep = stepLength(spread: rect.size.height, dencity: model.height)
         for row in 0..<model.height {
@@ -84,7 +84,7 @@ class GridView: UIView {
                                       y: rect.minY + CGFloat(row) * yStep,
                                       width: xStep,
                                       height: yStep)
-                if gridModel!.isAliveAt(x: row, y: column) {
+                if lifeModel!.isAliveAt(x: row, y: column) {
                     context.setFillColor(aliveColor.cgColor)
                 } else {
                     context.setFillColor(deadColor.cgColor)
@@ -95,7 +95,7 @@ class GridView: UIView {
     }
     
     override func draw(_ rect: CGRect) {
-        guard let context = UIGraphicsGetCurrentContext(), let model = gridModel else {
+        guard let context = UIGraphicsGetCurrentContext(), let model = lifeModel else {
             return
         }
         
@@ -106,10 +106,10 @@ class GridView: UIView {
             
             switch (model.width, model.height) {
             case let (width, height) where width < height :
-                let step = stepLength(spread: rect.size.height, dencity: gridModel!.height)
+                let step = stepLength(spread: rect.size.height, dencity: lifeModel!.height)
                 xInset = step * CGFloat(height - width) / 2
             case let (width, height) where width > height :
-                let step = stepLength(spread: rect.size.width, dencity: gridModel!.width)
+                let step = stepLength(spread: rect.size.width, dencity: lifeModel!.width)
                 yInset = step * CGFloat(width - height) / 2
             default: break
             }
@@ -128,12 +128,12 @@ extension GridView {
         guard activeRect.contains(location) else {
             return
         }
-        let xStep = stepLength(spread: activeRect.size.width, dencity: gridModel!.width)
-        let yStep = stepLength(spread: activeRect.size.height, dencity: gridModel!.height)
+        let xStep = stepLength(spread: activeRect.size.width, dencity: lifeModel!.width)
+        let yStep = stepLength(spread: activeRect.size.height, dencity: lifeModel!.height)
 
         let column = ((location.x - activeRect.minX) / (xStep)).rounded(.towardZero)
         let row = ((location.y - activeRect.minY) / (yStep)).rounded(.towardZero)
-        gridModel!.toggleAt(x: Int(row), y: Int(column))
+        lifeModel!.toggleAt(x: Int(row), y: Int(column))
         setNeedsDisplay()
     }
 }

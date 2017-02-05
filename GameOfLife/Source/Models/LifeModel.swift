@@ -1,5 +1,5 @@
 //
-//  GridModel.swift
+//  LifeModel.swift
 //  GameOfLife
 //
 //  Created by Kirill Yakimovich on 11/22/16.
@@ -8,16 +8,16 @@
 
 import Foundation
 
-protocol GridModelDelegate: class {
-    func gridModelUpdated(_ gridModel: GridModel)
+protocol LifeModelDelegate: class {
+    func LifeModelUpdated(_ LifeModel: LifeModel)
 }
 
-class GridModel {
-    weak var delegate: GridModelDelegate?
+class LifeModel {
+    weak var delegate: LifeModelDelegate?
     
     public fileprivate(set) var grid: Grid<CellState> {
         didSet {
-            delegate?.gridModelUpdated(self)
+            delegate?.LifeModelUpdated(self)
         }
     }
     public var width: Int {
@@ -42,7 +42,7 @@ class GridModel {
     }
 }
 
-extension GridModel {
+extension LifeModel {
     public func toggleAt(x: Int, y: Int) {
         grid[x, y] = grid[x, y].switched()
     }
@@ -81,13 +81,13 @@ extension GridModel {
     }
 }
 
-extension GridModel: Equatable {
-    static func ==(lhs: GridModel, rhs: GridModel) -> Bool {
+extension LifeModel: Equatable {
+    static func ==(lhs: LifeModel, rhs: LifeModel) -> Bool {
         return lhs.grid == rhs.grid
     }
 }
 
-extension GridModel {
+extension LifeModel {
     public func neighBours(x: Int, y: Int) -> [CellState] {
         var result = [CellState]()
         for xIndex in (x - 1)...(x + 1) {
@@ -111,8 +111,8 @@ extension GridModel {
     }
 }
 
-extension GridModel {
-    func extractSignificantPart() -> GridModel? {
+extension LifeModel {
+    func extractSignificantPart() -> LifeModel? {
         var minAliveCoordinate = (row: Int.max, column: Int.max)
         var maxAliveCoordinate = (row: -1, column: -1)
         for row in 0..<height {
@@ -146,7 +146,7 @@ extension GridModel {
         let newHeight = maxAliveCoordinate.row - minAliveCoordinate.row
         let newWidth = maxAliveCoordinate.column - minAliveCoordinate.column
 
-        let extracted = GridModel(width: newWidth + 1, height: newHeight + 1)
+        let extracted = LifeModel(width: newWidth + 1, height: newHeight + 1)
         for column in 0...newWidth {
             for row in 0...newHeight {
                 let originalCell = grid[minAliveCoordinate.row + row, minAliveCoordinate.column + column]
@@ -161,7 +161,7 @@ extension GridModel {
 }
 
 // MARK: CustomStringConvertible
-extension GridModel: CustomStringConvertible {
+extension LifeModel: CustomStringConvertible {
     public var description: String {
         return RLERepresentation()
     }
