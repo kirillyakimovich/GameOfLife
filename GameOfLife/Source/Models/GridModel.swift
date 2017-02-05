@@ -15,6 +15,11 @@ protocol GridModelDelegate: class {
 class GridModel {
     weak var delegate: GridModelDelegate?
     
+    public fileprivate(set) var grid: Grid<CellState> {
+        didSet {
+            delegate?.gridModelUpdated(self)
+        }
+    }
     public var width: Int {
         return grid.width
     }
@@ -22,15 +27,14 @@ class GridModel {
         return grid.height
     }
     
-    fileprivate var grid: Grid<CellState> {
-        didSet {
-            delegate?.gridModelUpdated(self)
-        }
-    }
     public fileprivate(set) var isStuck = false
     
-    init(width: Int, height: Int) {
-        grid = Grid(width: width, height: height, repeating: .dead)
+    init(grid: Grid<CellState>) {
+        self.grid = grid
+    }
+    
+    convenience init(width: Int, height: Int) {
+        self.init(grid: Grid(width: width, height: height, repeating: .dead))
     }
     
     convenience init(side: Int) {

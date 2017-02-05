@@ -63,32 +63,13 @@ extension GridModel: RLERepresentable {
         })
         
         if let header = RLEHeader(header: code.first) {
-            self.init(width: header.x, height: header.y)
-            
-            let contents = Array(code.dropFirst()).joined()
-            let rows = contents.components(separatedBy: "$")
-            for (row, rowCode) in rows.enumerated() {
-                var startColumn = 0;
-                let scanner = Scanner(string: rowCode)
-                while !scanner.isAtEnd {
-                    var runCount = 1
-                    scanner.scanInt(&runCount)
-                    let range = NSMakeRange(scanner.scanLocation, 1)
-                    let tag = (rowCode as NSString).substring(with: range)
-                    
-                    if tag == "o" {
-                        if (runCount > 1) {
-                            for column in startColumn..<(startColumn + runCount) {
-                                self.toggleAt(x: row, y: column)
-                            }
-                        } else {
-                            self.toggleAt(x: row, y: scanner.scanLocation)
-                        }
-                    }
-                    scanner.scanLocation += 1
-                    startColumn += runCount
-                }
+            let pattern = Array(code.dropFirst()).joined()
+            let rows = pattern.components(separatedBy: "$")
+            let contents = rows.map{ row in
+                return row.expandTags().characters.map { return CellState(rleTag: $0) }
             }
+            let grid = Grid(contents)
+            self.init(grid: grid)
         } else {
             return nil
         }
