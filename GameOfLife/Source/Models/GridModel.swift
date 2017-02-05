@@ -15,8 +15,13 @@ protocol GridModelDelegate: class {
 class GridModel {
     weak var delegate: GridModelDelegate?
     
-    let width: Int
-    let height: Int
+    public var width: Int {
+        return grid.width
+    }
+    public var height: Int {
+        return grid.height
+    }
+    
     fileprivate var grid: Grid<CellState> {
         didSet {
             delegate?.gridModelUpdated(self)
@@ -25,9 +30,7 @@ class GridModel {
     public fileprivate(set) var isStuck = false
     
     init(width: Int, height: Int) {
-        self.width = width
-        self.height = height
-        self.grid = Grid(width: width, height: height, repeating: .dead)
+        grid = Grid(width: width, height: height, repeating: .dead)
     }
     
     convenience init(side: Int) {

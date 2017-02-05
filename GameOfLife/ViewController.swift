@@ -70,8 +70,8 @@ class ViewController: UIViewController {
 
 extension ViewController: GridModelDelegate {
     func gridModelUpdated(_ gridModel: GridModel) {
-        if (timeModel.isTicking) {
-            timeModel.isTicking = !gridModel.isStuck
+        if (timeModel.isTicking && gridModel.isStuck) {
+            timeModel.isTicking = false
         }
         updateView()
         gridView.setNeedsDisplay()
