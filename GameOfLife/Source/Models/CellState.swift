@@ -40,7 +40,7 @@ enum CellState: Int {
 // b - dead cell
 // o	alive cell
 extension CellState {
-    init(rleTag: String) {
+    init(rleTag: Character) {
         if rleTag == "o" {
             self = .alive
         } else {

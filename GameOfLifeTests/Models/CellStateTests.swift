@@ -11,7 +11,7 @@ import XCTest
 
 class CellStateTests: XCTestCase {
     func testInitWithInvalidRLETag() {
-        XCTAssertEqual(CellState(rleTag: "asdf"), .dead)
+        XCTAssertEqual(CellState(rleTag: "a"), .dead)
     }
     
     func testInitWithValidRLEDeadTag() {
