@@ -13,40 +13,11 @@ protocol GridModelDelegate: class {
 }
 
 class GridModel {
-    enum State: Int {
-        case alive
-        case dead
-        
-        func switched() -> State {
-            switch self {
-            case .alive:
-                return .dead
-            case .dead:
-                return .alive
-            }
-        }
-        
-        func shouldSwitch(aliveNeighbours: Int) -> Bool {
-            switch self {
-            case .alive:
-                if aliveNeighbours < 2 || aliveNeighbours > 3 {
-                    return true
-                }
-            case .dead:
-                if aliveNeighbours == 3 {
-                    return true
-                }
-            }
-            
-            return false
-        }
-    }
-    
     weak var delegate: GridModelDelegate?
     
     let width: Int
     let height: Int
-    fileprivate var grid: Grid<State> {
+    fileprivate var grid: Grid<CellState> {
         didSet {
             delegate?.gridModelUpdated(self)
         }
@@ -110,8 +81,8 @@ extension GridModel: Equatable {
 }
 
 extension GridModel {
-    public func neighBours(x: Int, y: Int) -> [State] {
-        var result = [State]()
+    public func neighBours(x: Int, y: Int) -> [CellState] {
+        var result = [CellState]()
         for xIndex in (x - 1)...(x + 1) {
             for yIndex in (y - 1)...(y + 1) {
                 if xIndex == x && yIndex == y {
@@ -124,11 +95,11 @@ extension GridModel {
         return result
     }
     
-    fileprivate func isAlive(grid: Grid<State>) -> Bool {
+    fileprivate func isAlive(grid: Grid<CellState>) -> Bool {
         return grid.contains(.alive)
     }
     
-    fileprivate func isDead(grid: Grid<State>) -> Bool {
+    fileprivate func isDead(grid: Grid<CellState>) -> Bool {
         return !isAlive(grid: grid)
     }
 }
