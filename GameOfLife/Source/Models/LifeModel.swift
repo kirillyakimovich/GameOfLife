@@ -113,7 +113,7 @@ extension LifeModel {
 
 extension LifeModel {
     func extractSignificantPart() -> LifeModel? {
-        var minAliveCoordinate = (row: Int.max, column: Int.max)
+        var minAliveCoordinate = (row: height, column: width)
         var maxAliveCoordinate = (row: -1, column: -1)
         for row in 0..<height {
             for column in 0..<width {
