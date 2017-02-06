@@ -17,7 +17,7 @@ class GridTests: XCTestCase {
     }
     
     func testSubscriptForLastElement() {
-        XCTAssertEqual(grid[1, 2], 6)
+        XCTAssertEqual(grid[2, 1], 6)
     }
     
     func testAnotherSubscript() {

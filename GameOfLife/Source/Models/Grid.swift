@@ -21,12 +21,12 @@ struct Grid<Element> where Element: Equatable {
     }
     
     init(_ contents: [[Element]]) {
-        let x = contents.count
-        let y = contents[0].count
+        let rows = contents.count
+        let columns = contents[0].count
         
-        self.init(width: x, height: y, repeating: contents[0][0])
+        self.init(width: columns, height: rows, repeating: contents[0][0])
         for (i, row) in contents.enumerated() {
-            grid.replaceSubrange((i * y)..<(i * y + min(y, row.count)), with: row)
+            grid.replaceSubrange((i * columns)..<(i * columns + min(columns, row.count)), with: row)
         }
     }
     
@@ -77,27 +77,28 @@ struct Grid<Element> where Element: Equatable {
     
     subscript(row row: Int) -> [Element] {
         get {
-            return Array(grid[(row * height)..<((row + 1) * height)])
+            return Array(grid[(row * width)..<((row + 1) * width)])
         }
         
         set {
-            grid.replaceSubrange((row * height)..<((row + 1) * height), with: newValue)
+            assert(newValue.count == width)
+            grid.replaceSubrange((row * width)..<((row + 1) * width), with: newValue)
         }
     }
     
     subscript(column column: Int) -> [Element] {
         get {
             var result: [Element] = []
-            for i in 0...height {
-                result.append(grid[i * height  + column])
+            for i in 0..<height {
+                result.append(grid[i * width  + column])
             }
             return result
         }
         
         set {
-            assert(newValue.count == width)
-            for i in 0...height {
-                grid[i * height  + column] = newValue[i]
+            assert(newValue.count == height)
+            for i in 0..<height {
+                grid[i * width  + column] = newValue[i]
             }
         }
     }
