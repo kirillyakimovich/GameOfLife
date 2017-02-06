@@ -117,8 +117,8 @@
 			isa = PBXGroup;
 			children = (
 				6B56E3061E4762F70093886E /* CellStateTests.swift */,
-				6B36627F1E476201007753BB /* LifeModelTests.swift */,
 				6B3662801E476201007753BB /* GridTests.swift */,
+				6B36627F1E476201007753BB /* LifeModelTests.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
