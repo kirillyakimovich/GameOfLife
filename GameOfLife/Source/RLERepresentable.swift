@@ -47,7 +47,7 @@ extension RLERepresentable {
     }
 }
 
-extension GridModel: RLERepresentable {
+extension LifeModel: RLERepresentable {
     internal func RLERepresentation() -> String {
         return header(width: self.width, height: self.height)
     }
@@ -63,33 +63,13 @@ extension GridModel: RLERepresentable {
         })
         
         if let header = RLEHeader(header: code.first) {
-            self.init(width: header.x, height: header.y)
-            
-            let contents = Array(code.dropFirst()).joined()
-            let rows = contents.components(separatedBy: "$")
-            for (yIndex, row) in rows.enumerated() {
-                var startXIndex = 0;
-                let scanner = Scanner(string: row)
-                while !scanner.isAtEnd {
-                    var runCount = 1
-                    scanner.scanInt(&runCount)
-                    let range = NSMakeRange(scanner.scanLocation, 1)
-                    let tag = (row as NSString).substring(with: range)
-                    
-                    if tag == "o" {
-                        if (runCount > 1) {
-                            for xIndex in startXIndex..<(startXIndex + runCount) {
-                                self.toggleAt(x: xIndex, y: yIndex)
-                            }
-                        } else {
-                            self.toggleAt(x: scanner.scanLocation, y: yIndex)
-                        }
-                    }
-                    scanner.scanLocation += 1
-                    startXIndex += runCount
-                }
+            let pattern = Array(code.dropFirst()).joined()
+            let rows = pattern.components(separatedBy: "$")
+            let contents = rows.map{ row in
+                return row.expandTags().characters.map { return CellState(rleTag: $0) }
             }
-            print(rows)
+            let grid = Grid(contents)
+            self.init(grid: grid)
         } else {
             return nil
         }
