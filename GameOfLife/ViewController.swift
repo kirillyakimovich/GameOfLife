@@ -49,7 +49,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tapOnLoad(_ sender: UIButton) {
-        if let url = Bundle.main.url(forResource: "1beacon", withExtension: "rle", subdirectory: "Patterns") {
+        if let url = Bundle.main.url(forResource: "4boats", withExtension: "rle", subdirectory: "Patterns") {
             if let contents = try? String(contentsOf: url) {
                 lifeModel = LifeModel(with: contents)
             }
