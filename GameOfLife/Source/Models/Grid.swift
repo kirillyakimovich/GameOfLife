@@ -9,8 +9,8 @@
 import Foundation
 
 struct Grid<Element> where Element: Equatable {
-    public private(set) var width: Int // number of columns
-    public private(set) var height: Int // number of rows
+    public fileprivate(set) var width: Int // number of columns
+    public fileprivate(set) var height: Int // number of rows
     fileprivate var grid: Array<Element>
     
     init(width: Int, height: Int, repeating element: Element) {
@@ -111,5 +111,22 @@ struct Grid<Element> where Element: Equatable {
 extension Grid: Equatable {
     public static func ==(lhs: Grid<Element>, rhs: Grid<Element>) -> Bool {
         return lhs.grid == rhs.grid
+    }
+}
+
+// MARK: modifications
+extension Grid {
+    mutating func append(row: [Element]) {
+        assert(row.count == width)
+        height += 1
+        grid.append(contentsOf: row)
+    }
+    
+    mutating func append(column: [Element]) {
+        assert(column.count == height)
+        width += 1
+        for i in 0..<height {
+            grid.insert(column[i], at: i * width)
+        }
     }
 }

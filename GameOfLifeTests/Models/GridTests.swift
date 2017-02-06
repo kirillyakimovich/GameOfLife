@@ -58,11 +58,34 @@ class GridTests: XCTestCase {
     func testContainsReturnsFalseForAbsentElement() {
         XCTAssertFalse(grid.contains(300))
     }
-    
+}
+
+extension GridTests {
     func testInitWithContentsWidthHeightDefault() {
         let grid = Grid(from: [[0], [1], [2, 3, 4]], width: 4, height: 4, default: -1)
         let targetGrid = Grid([[0, -1, -1, -1], [1, -1, -1, -1], [2, 3, 4, -1], [-1, -1, -1, -1]])
         XCTAssertEqual(grid, targetGrid)
     }
+}
 
+extension GridTests {
+    func testAppendRowIncrementsHeight() {
+        grid.append(row: [7, 8])
+        XCTAssertEqual(grid.height, 4)
+    }
+    
+    func testAppendRow() {
+        grid.append(row: [7, 8])
+        XCTAssertEqual(grid, Grid([[1, 2], [3, 4], [5, 6], [7, 8]]))
+    }
+    
+    func testAppendColumnIncrementsWidth() {
+        grid.append(column: [10, 11, 12])
+        XCTAssertEqual(grid.width, 3)
+    }
+    
+    func testAppendColumn() {
+        grid.append(column: [10, 11, 12])
+        XCTAssertEqual(grid, Grid([[10, 1, 2], [11, 3, 4], [12, 5, 6]]))
+    }
 }
