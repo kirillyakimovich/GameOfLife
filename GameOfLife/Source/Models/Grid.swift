@@ -30,6 +30,23 @@ struct Grid<Element> where Element: Equatable {
         }
     }
     
+    /// This initializer is needed for cases, when contents is not rectangular or there are some missed rows 
+    /// If some row contains more than width values, reminded will be just ignored
+    /// - Parameters:
+    ///   - contents: array of arrays of elements
+    ///   - width: desired width
+    ///   - height: desired height
+    ///   - element: default value to be used in case when missed from contents
+    init(from contents: [[Element]], width: Int, height: Int, default element: Element) {
+        let neededWidth = width
+        let neededHeight = height
+        
+        self.init(width: neededWidth, height: neededHeight, repeating: element)
+        for (i, row) in contents.enumerated() {
+            grid.replaceSubrange((i * neededHeight)..<(i * neededHeight + min(neededHeight, row.count)), with: row)
+        }
+    }
+    
     subscript(row: Int, column: Int) -> Element {
         get {
             return grid[row * width  + column]
