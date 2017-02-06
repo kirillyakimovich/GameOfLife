@@ -68,7 +68,7 @@ extension LifeModel: RLERepresentable {
             let contents = rows.map{ row in
                 return row.expandTags().characters.map { return CellState(rleTag: $0) }
             }
-            let grid = Grid(contents)
+            let grid = Grid(from: contents, width: header.x, height: header.y, default: CellState.dead)
             self.init(grid: grid)
         } else {
             return nil
