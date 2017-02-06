@@ -21,8 +21,12 @@ extension String {
         while !scanner.isAtEnd {
             var runCount = 1
             scanner.scanInt(&runCount)
+            let nsSelf = self as NSString
+            if nsSelf.length < scanner.scanLocation + 1 {
+                break
+            }
             let range = NSMakeRange(scanner.scanLocation, 1)
-            let tag = (self as NSString).substring(with: range)
+            let tag = nsSelf.substring(with: range)
             // Should we distinguish betwee runCount == 1 and runCount > 1?
             result.append(repeatElement(tag, count: runCount).joined())
             scanner.scanLocation += 1

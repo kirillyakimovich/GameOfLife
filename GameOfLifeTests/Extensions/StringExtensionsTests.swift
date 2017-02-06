@@ -17,6 +17,13 @@ class StringExtensionsTests: XCTestCase {
         XCTAssertEqual(output, target)
     }
     
+    func testNumberOfTheEndIsIgnored() {
+        let input = "bo2bo3o3"
+        let output = input.expandTags()
+        let target = "bobboooo"
+        XCTAssertEqual(output, target)
+    }
+    
     func testTagsCompress() {
         let input = "bobboooo"
         let output = input.compressTags()
