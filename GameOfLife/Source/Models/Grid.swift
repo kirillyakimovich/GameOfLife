@@ -57,6 +57,10 @@ struct Grid<Element> where Element: Equatable {
         }
     }
     
+    func isEmpty() -> Bool {
+        return width + height > 0
+    }
+    
     subscript(row: Int, column: Int) -> Element {
         get {
             return grid[row * width  + column]

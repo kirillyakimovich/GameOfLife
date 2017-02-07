@@ -58,6 +58,14 @@ class GridTests: XCTestCase {
     func testContainsReturnsFalseForAbsentElement() {
         XCTAssertFalse(grid.contains(300))
     }
+    
+    func testIsEmptyReturnsTrueForEmtpyGrid() {
+        XCTAssertFalse(Grid<Int>().isEmpty())
+    }
+    
+    func testIsEmptyReturnsFalseForNonEmtpyGrid() {
+        XCTAssertTrue(grid.isEmpty())
+    }
 }
 
 extension GridTests {
