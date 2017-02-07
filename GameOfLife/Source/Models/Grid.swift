@@ -53,7 +53,7 @@ struct Grid<Element> where Element: Equatable {
         
         self.init(width: neededWidth, height: neededHeight, repeating: element)
         for (i, row) in contents.enumerated() {
-            grid.replaceSubrange((i * neededHeight)..<(i * neededHeight + min(neededHeight, row.count)), with: row)
+            grid.replaceSubrange((i * neededWidth)..<(i * neededWidth + min(neededHeight, row.count)), with: row)
         }
     }
     
