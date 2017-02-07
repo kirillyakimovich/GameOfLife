@@ -13,6 +13,14 @@ struct Grid<Element> where Element: Equatable {
     public fileprivate(set) var height: Int // number of rows
     fileprivate var grid: Array<Element>
     
+    /// Empty grid
+    init() {
+        width = 0
+        height = 0
+        
+        grid = Array<Element>()
+    }
+    
     init(width: Int, height: Int, repeating element: Element) {
         self.width = width
         self.height = height
@@ -22,7 +30,9 @@ struct Grid<Element> where Element: Equatable {
     
     init(_ contents: [[Element]]) {
         let rows = contents.count
+        assert(rows > 0)
         let columns = contents[0].count
+        assert(columns > 0)
         
         self.init(width: columns, height: rows, repeating: contents[0][0])
         for (i, row) in contents.enumerated() {
@@ -114,7 +124,7 @@ extension Grid: Equatable {
     }
 }
 
-// MARK: modifications
+// MARK: Appending and inserting
 extension Grid {
     mutating func insert(row: [Element], at index: Int) {
         assert(row.count == width)
@@ -138,5 +148,74 @@ extension Grid {
     
     mutating func append(column: [Element]) {
         insert(column: column, at: width)
+    }
+}
+
+// MARK: Removing
+extension Grid {
+    mutating func removeRow(at index: Int) {
+        assert(index >= 0)
+        assert(index < height)
+        
+        grid.removeSubrange((index * width)..<((index + 1) * width))
+        height -= 1
+    }
+    
+    mutating func removeLastRow() {
+        grid.removeLast(width)
+        height -= 1
+    }
+    
+    mutating func removeColumn(at index: Int) {
+        assert(index >= 0)
+        assert(index < width)
+        
+        for i in 0..<height {
+            // substracting i is needed as we're actually mutating array, when removing element one by one, so we need to handle offset
+            grid.remove(at:i * width + index - i)
+        }
+        width -= 1
+    }
+    
+    mutating func removeLastColumn() {
+        assert(width > 0)
+        removeColumn(at: width - 1)
+    }
+}
+
+// MARK: Insetting
+extension Grid {
+    mutating func insetBy(dx: Int, dy: Int, repeating element: Element) {
+        assert(dx * 2 <= width)
+        assert(dy * 2 <= height)
+        let repeatingColumn = Array<Element>(repeatElement(element, count: height))
+        if (dy < 0) {
+            for _ in dy..<0 {
+                insert(column: repeatingColumn, at: 0)
+                append(column: repeatingColumn)
+            }
+        } else {
+            for _ in 0..<dy {
+                removeColumn(at: 0)
+                removeLastColumn()
+            }
+            
+        }
+        
+        let repeatingRow = Array<Element>(repeatElement(element, count: width))
+        if (dx < 0) {
+            for _ in dx..<0 {
+                insert(row: repeatingRow, at: 0)
+                append(row: repeatingRow)
+            }
+        } else {
+            for _ in 0..<dx {
+                removeRow(at: 0)
+                removeLastRow()
+            }
+
+        }
+
+        
     }
 }

@@ -130,3 +130,133 @@ extension GridTests {
         XCTAssertEqual(grid, Grid([[1, 2, 10], [3, 4, 11], [5, 6, 12]]))
     }
 }
+
+// MARK: Removing
+extension GridTests {
+    func testRemoveRowFromTheBeginningDecreaseHeight() {
+        grid.removeRow(at: 0)
+        XCTAssertEqual(grid.height, 2)
+    }
+
+    func testRemoveRowFromTheBeginning() {
+        grid.removeRow(at: 0)
+        XCTAssertEqual(grid, Grid([[3, 4], [5, 6]]))
+    }
+    
+    func testRemoveRowFromTheMiddleDecreaseHeight() {
+        grid.removeRow(at: 1)
+        XCTAssertEqual(grid.height, 2)
+    }
+    
+    func testRemoveRowFromTheMiddle() {
+        grid.removeRow(at: 1)
+        XCTAssertEqual(grid, Grid([[1, 2], [5, 6]]))
+    }
+    
+    func testRemoveRowFromTheEndDecreaseHeight() {
+        grid.removeRow(at: grid.height - 1)
+        XCTAssertEqual(grid.height, 2)
+    }
+    
+    func testRemoveRowFromTheEnd() {
+        grid.removeRow(at: grid.height - 1)
+        XCTAssertEqual(grid, Grid([[1, 2], [3, 4]]))
+    }
+    
+    func testRemoveLastRowDecreaseHeight() {
+        grid.removeLastRow()
+        XCTAssertEqual(grid.height, 2)
+    }
+    
+    func testRemoveLastRow() {
+        grid.removeLastRow()
+        XCTAssertEqual(grid, Grid([[1, 2], [3, 4]]))
+    }
+    
+    func testRemoveColumnFromTheBeginningDecreaseWidth() {
+        grid.removeColumn(at: 0)
+        XCTAssertEqual(grid.width, 1)
+    }
+    
+    func testRemoveColumnFromTheBeginning() {
+        grid.removeColumn(at: 0)
+        XCTAssertEqual(grid, Grid([[2], [4], [6]]))
+    }
+    
+    func testRemoveColumnFromTheMiddleDecreaseWidth() {
+        grid.removeColumn(at: 1)
+        XCTAssertEqual(grid.width, 1)
+    }
+    
+    func testRemoveColumnFromTheMiddle() {
+        grid.removeColumn(at: 1)
+        XCTAssertEqual(grid, Grid([[1], [3], [5]]))
+    }
+    
+    func testRemoveColumnFromTheEndDecreaseWidth() {
+        grid.removeColumn(at: grid.width - 1)
+        XCTAssertEqual(grid.width, 1)
+    }
+    
+    func testRemoveColumnFromTheEnd() {
+        grid.removeColumn(at: grid.width - 1)
+        XCTAssertEqual(grid, Grid([[1], [3], [5]]))
+    }
+    
+    func testRemoveLastColumnDecreaseWidth() {
+        grid.removeLastColumn()
+        XCTAssertEqual(grid.width, 1)
+    }
+    
+    func testRemoveLastColumn() {
+        grid.removeLastColumn()
+        XCTAssertEqual(grid, Grid([[1], [3], [5]]))
+
+    }
+}
+
+
+// MARK: Insetting
+extension GridTests {
+    func testInsetBy0DoesNotModifyGrid() {
+        var modifided = grid
+        modifided.insetBy(dx: 0, dy: 0, repeating: 0)
+        
+        XCTAssertEqual(grid, modifided)
+    }
+    
+    func testInsetXBy1YBy1() {
+        grid.insetBy(dx: 1, dy: 1, repeating: 0)
+        let target: Grid<Int> = Grid()
+        XCTAssertEqual(grid,  target)
+    }
+    
+    func testInsetXByMinus1YByMinus1() {
+        grid.insetBy(dx: -1, dy: -1, repeating: 0)
+        let target = Grid([[0, 0, 0, 0], [0, 1, 2, 0], [0, 3, 4, 0], [0, 5, 6, 0], [0, 0, 0, 0]])
+        XCTAssertEqual(grid,  target)
+    }
+    
+    func testInsetXBy1YBy0() {
+        grid.insetBy(dx: 1, dy: 0, repeating: 0)
+        XCTAssertEqual(grid,  Grid([[3, 4]]))
+    }
+    
+    func testInsetXBy0YBy1() {
+        grid.insetBy(dx: 0, dy: 1, repeating: 0)
+        XCTAssertEqual(grid,  Grid())
+    }
+
+    func testInsetXByMinus1YByZero() {
+        grid.insetBy(dx: -1, dy: 0, repeating: 0)
+        let target = Grid([[0, 0], [1, 2], [3, 4], [5, 6], [0, 0]])
+        XCTAssertEqual(grid,  target)
+    }
+    
+    func testInsetXByZeroYByMinus1() {
+        grid.insetBy(dx: 0, dy: -1, repeating: 0)
+        let target = Grid([[0, 1, 2, 0], [0, 3, 4, 0], [0, 5, 6, 0]])
+        XCTAssertEqual(grid,  target)
+    }
+    
+}
