@@ -199,7 +199,6 @@ extension Grid {
                 removeColumn(at: 0)
                 removeLastColumn()
             }
-            
         }
         
         let repeatingRow = Array<Element>(repeatElement(element, count: width))
@@ -213,9 +212,6 @@ extension Grid {
                 removeRow(at: 0)
                 removeLastRow()
             }
-
         }
-
-        
     }
 }
