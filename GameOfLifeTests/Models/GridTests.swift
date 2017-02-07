@@ -66,6 +66,19 @@ extension GridTests {
         let targetGrid = Grid([[0, -1, -1, -1], [1, -1, -1, -1], [2, 3, 4, -1], [-1, -1, -1, -1]])
         XCTAssertEqual(grid, targetGrid)
     }
+    
+    func testInitWithContentsWidthHeightDefaultWithBiggerWidth() {
+        let grid = Grid(from: [[0], [1], [2, 3, 4]], width: 5, height: 4, default: -1)
+        let targetGrid = Grid([[0, -1, -1, -1, -1], [1, -1, -1, -1, -1], [2, 3, 4, -1, -1], [-1, -1, -1, -1, -1]])
+        XCTAssertEqual(grid, targetGrid)
+    }
+    
+    func testInitWithContentsWidthHeightDefaultWithBiggerHeight() {
+        let grid = Grid(from: [[0], [1], [2, 3, 4]], width: 4, height: 5, default: -1)
+        let targetGrid = Grid([[0, -1, -1, -1], [1, -1, -1, -1], [2, 3, 4, -1,], [-1, -1, -1, -1], [-1, -1, -1, -1]])
+        XCTAssertEqual(grid, targetGrid)
+    }
+
 }
 
 // MARK: Appending and inserting
