@@ -29,10 +29,10 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var gridView: GridView!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        lifeModel = LifeModel(width: side, height: side + 3)
+    @IBOutlet weak var sizeStepper: UIStepper!
+    @IBAction func onSizeChange(_ sender: UIStepper) {
     }
+    
     
     @IBOutlet weak var stateButton: UIButton!
     @IBAction func toggle(_ sender: Any) {
@@ -49,11 +49,16 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tapOnLoad(_ sender: UIButton) {
-        if let url = Bundle.main.url(forResource: "4boats", withExtension: "rle", subdirectory: "Patterns") {
+        if let url = Bundle.main.url(forResource: "1beacon", withExtension: "rle", subdirectory: "Patterns") {
             if let contents = try? String(contentsOf: url) {
                 lifeModel = LifeModel(with: contents)
             }
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        lifeModel = LifeModel(width: side, height: side + 3)
     }
     
     func updateView() {

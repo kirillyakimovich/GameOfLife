@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12100" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12106.1" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12072"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12074.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -31,31 +31,37 @@
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="j4Y-BL-F5A">
-                                <rect key="frame" x="169" y="405" width="37" height="120"/>
+                                <rect key="frame" x="140.5" y="405" width="94" height="149"/>
                                 <subviews>
+                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Zdv-FV-rp3">
+                                        <rect key="frame" x="0.0" y="0.0" width="94" height="29"/>
+                                        <connections>
+                                            <action selector="onSizeChange:" destination="BYZ-38-t0r" eventType="valueChanged" id="I7c-Xh-vJn"/>
+                                        </connections>
+                                    </stepper>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eJl-Hr-E7K" userLabel="State Button">
-                                        <rect key="frame" x="0.0" y="0.0" width="37" height="30"/>
+                                        <rect key="frame" x="0.0" y="29" width="94" height="30"/>
                                         <state key="normal" title="State"/>
                                         <connections>
                                             <action selector="toggle:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MQK-2b-pUP"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dbt-yp-YCz">
-                                        <rect key="frame" x="0.0" y="30" width="37" height="30"/>
+                                        <rect key="frame" x="0.0" y="59" width="94" height="30"/>
                                         <state key="normal" title="Step"/>
                                         <connections>
                                             <action selector="touchOnStep:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5cn-Em-o8f"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jLo-ZJ-djj" userLabel="Save Button">
-                                        <rect key="frame" x="0.0" y="60" width="37" height="30"/>
+                                        <rect key="frame" x="0.0" y="89" width="94" height="30"/>
                                         <state key="normal" title="Save"/>
                                         <connections>
                                             <action selector="touchOnSave:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fTg-bZ-FN5"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ne5-Hu-AzN" userLabel="Load Button">
-                                        <rect key="frame" x="0.0" y="90" width="37" height="30"/>
+                                        <rect key="frame" x="0.0" y="119" width="94" height="30"/>
                                         <state key="normal" title="Load"/>
                                         <connections>
                                             <action selector="tapOnLoad:" destination="BYZ-38-t0r" eventType="touchUpInside" id="a0n-Qr-hf7"/>
@@ -109,6 +115,7 @@
                     </view>
                     <connections>
                         <outlet property="gridView" destination="fyX-Nr-IEN" id="oqF-wD-yPY"/>
+                        <outlet property="sizeStepper" destination="Zdv-FV-rp3" id="8fz-Nj-3jk"/>
                         <outlet property="stateButton" destination="eJl-Hr-E7K" id="0LZ-a1-Rdh"/>
                         <outlet property="stepButton" destination="dbt-yp-YCz" id="Vjz-zS-yiK"/>
                     </connections>
