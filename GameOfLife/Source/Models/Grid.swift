@@ -116,17 +116,27 @@ extension Grid: Equatable {
 
 // MARK: modifications
 extension Grid {
-    mutating func append(row: [Element]) {
+    mutating func insert(row: [Element], at index: Int) {
         assert(row.count == width)
+        assert(index <= height)
         height += 1
-        grid.append(contentsOf: row)
+        grid.insert(contentsOf: row, at: index * width)
+    }
+    
+    mutating func append(row: [Element]) {
+        insert(row: row, at: height)
+    }
+    
+    mutating func insert(column: [Element], at index: Int) {
+        assert(column.count == height)
+        assert(index <= width)
+        width += 1
+        for i in 0..<height {
+            grid.insert(column[i], at: i * width + index)
+        }
     }
     
     mutating func append(column: [Element]) {
-        assert(column.count == height)
-        width += 1
-        for i in 0..<height {
-            grid.insert(column[i], at: i * width)
-        }
+        insert(column: column, at: width)
     }
 }

@@ -68,8 +68,29 @@ extension GridTests {
     }
 }
 
+// MARK: Appending and inserting
 extension GridTests {
-    func testAppendRowIncrementsHeight() {
+    func testInsertingRowAtTheBeginningIncreaseHeight() {
+        grid.insert(row: [7, 8], at: 0)
+        XCTAssertEqual(grid.height, 4)
+    }
+
+    func testInsertingRowAtTheBeginning() {
+        grid.insert(row: [7, 8], at: 0)
+        XCTAssertEqual(grid, Grid([[7, 8], [1, 2], [3, 4], [5, 6]]))
+    }
+    
+    func testInsertingRowInTheMiddleIncreaseHeight() {
+        grid.insert(row: [7, 8], at: 1)
+        XCTAssertEqual(grid.height, 4)
+    }
+    
+    func testInsertingRowInTheMiddle() {
+        grid.insert(row: [7, 8], at: 2)
+        XCTAssertEqual(grid, Grid([[1, 2], [3, 4], [7, 8], [5, 6]]))
+    }
+    
+    func testAppendRowIncreaseHeight() {
         grid.append(row: [7, 8])
         XCTAssertEqual(grid.height, 4)
     }
@@ -79,13 +100,33 @@ extension GridTests {
         XCTAssertEqual(grid, Grid([[1, 2], [3, 4], [5, 6], [7, 8]]))
     }
     
-    func testAppendColumnIncrementsWidth() {
+    func testInsertingColumnAtTheBeginningIncreaseWidth() {
+        grid.insert(column: [7, 8, 9], at: 0)
+        XCTAssertEqual(grid.width, 3)
+    }
+    
+    func testInsertingColumnAtTheBeginning() {
+        grid.insert(column: [7, 8, 9], at: 0)
+        XCTAssertEqual(grid, Grid([[7, 1, 2], [8, 3, 4], [9, 5, 6]]))
+    }
+    
+    func testInsertingColumnInTheMiddleIncreaseHeight() {
+        grid.insert(column: [7, 8, 9], at: 1)
+        XCTAssertEqual(grid.width, 3)
+    }
+    
+    func testInsertingColumnInTheMiddle() {
+        grid.insert(column: [7, 8, 9], at: 1)
+        XCTAssertEqual(grid, Grid([[1, 7, 2], [3, 8, 4], [5, 9, 6]]))
+    }
+    
+    func testAppendColumnIncreaseWidth() {
         grid.append(column: [10, 11, 12])
         XCTAssertEqual(grid.width, 3)
     }
     
     func testAppendColumn() {
         grid.append(column: [10, 11, 12])
-        XCTAssertEqual(grid, Grid([[10, 1, 2], [11, 3, 4], [12, 5, 6]]))
+        XCTAssertEqual(grid, Grid([[1, 2, 10], [3, 4, 11], [5, 6, 12]]))
     }
 }
