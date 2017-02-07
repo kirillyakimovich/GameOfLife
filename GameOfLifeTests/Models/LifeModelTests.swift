@@ -61,13 +61,13 @@ class LifeModelTests: XCTestCase {
     }
     
     // MARK: Extraction
+    // TODO: move Extraction tests to GridTests
     func testExtractionFromEmptyIsNil() {
         let gm = LifeModel(side: 2)
         let extracted = gm.extractSignificantPart()
         
         XCTAssertNil(extracted)
     }
-    
     func testExtractionFromFullyAliveIsNotNil() {
         let gm = LifeModel(side: 2)
         gm.animate()

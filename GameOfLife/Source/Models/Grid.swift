@@ -219,3 +219,49 @@ extension Grid {
         }
     }
 }
+
+// MARK: Extracting
+extension Grid {
+    typealias ExtractionRule = (Element) -> Bool
+    func extractSignificantPart(_ rule: ExtractionRule) -> Grid {
+        var minAliveCoordinate = (row: height, column: width)
+        var maxAliveCoordinate = (row: -1, column: -1)
+        for column in 0..<width {
+            for row in 0..<height {
+                let element = self[row, column]
+                if !rule(element) {
+                    continue
+                }
+                
+                if row < minAliveCoordinate.row {
+                    minAliveCoordinate.row = row
+                }
+                if row > maxAliveCoordinate.row {
+                    maxAliveCoordinate.row = row
+                }
+                
+                if column < minAliveCoordinate.column {
+                    minAliveCoordinate.column = column
+                }
+                if column > maxAliveCoordinate.column {
+                    maxAliveCoordinate.column = column
+                }
+                
+            }
+        }
+        
+        if maxAliveCoordinate == (-1, -1) {
+            return Grid()
+        }
+        
+        var extracted = [[Element]]()
+        for row in (minAliveCoordinate.row)...(maxAliveCoordinate.row) {
+            let offset = row * self.width
+            let startIndex = offset + minAliveCoordinate.column
+            let endIndex = offset + maxAliveCoordinate.column
+            let subrow = Array(self.grid[startIndex...endIndex])
+            extracted.append(subrow)
+        }
+        return Grid(extracted)
+    }
+}

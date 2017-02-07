@@ -112,51 +112,9 @@ extension LifeModel {
 }
 
 extension LifeModel {
-    func extractSignificantPart() -> LifeModel? {
-        var minAliveCoordinate = (row: height, column: width)
-        var maxAliveCoordinate = (row: -1, column: -1)
-        for column in 0..<width {
-            for row in 0..<height {
-                let cell = grid[row, column]
-                if cell == .dead {
-                    continue
-                }
-                
-                if row < minAliveCoordinate.row {
-                    minAliveCoordinate.row = row
-                }
-                if row > maxAliveCoordinate.row {
-                    maxAliveCoordinate.row = row
-                }
-                
-                if column < minAliveCoordinate.column {
-                    minAliveCoordinate.column = column
-                }
-                if column > maxAliveCoordinate.column {
-                    maxAliveCoordinate.column = column
-                }
-                
-            }
-        }
-        
-        if maxAliveCoordinate == (-1, -1) {
-            return nil
-        }
-        
-        let newHeight = maxAliveCoordinate.row - minAliveCoordinate.row
-        let newWidth = maxAliveCoordinate.column - minAliveCoordinate.column
-        
-        let extracted = LifeModel(width: newWidth + 1, height: newHeight + 1)
-        for column in 0...newWidth {
-            for row in 0...newHeight {
-                let originalCell = grid[minAliveCoordinate.row + row, minAliveCoordinate.column + column]
-                if originalCell == .alive {
-                    extracted.toggleAt(x: row, y: column)
-                }
-            }
-        }
-        
-        return extracted
+    func extractSignificantPart() -> LifeModel {
+        let extracted = self.grid.extractSignificantPart{ return $0 == .alive }
+        return LifeModel(grid: extracted)
     }
 }
 
