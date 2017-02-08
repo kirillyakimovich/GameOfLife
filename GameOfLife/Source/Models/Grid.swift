@@ -265,3 +265,9 @@ extension Grid {
         return Grid(extracted)
     }
 }
+
+extension Grid where Element == CellState {
+    func extractAlive() -> Grid {
+        return self.extractSignificantPart { return $0 == .alive }
+    }
+}

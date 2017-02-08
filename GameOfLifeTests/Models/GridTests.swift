@@ -236,7 +236,6 @@ extension GridTests {
     }
 }
 
-
 // MARK: Insetting
 extension GridTests {
     func testInsetBy0DoesNotModifyGrid() {
@@ -279,5 +278,69 @@ extension GridTests {
         let target = Grid([[0, 1, 2, 0], [0, 3, 4, 0], [0, 5, 6, 0]])
         XCTAssertEqual(grid,  target)
     }
+}
+
+// MARK: Extraction
+extension GridTests {
+    func testExtractionFromEmptyIsEmpty() {
+        let grid = Grid<CellState>()
+        let extracted = grid.extractAlive()
+        
+        XCTAssertFalse(extracted.isEmpty())
+    }
     
+    func testExtractionFromFullyAliveIsNotEmpty() {
+        let grid = Grid<CellState>([[.alive, .alive], [.alive, .alive]])
+        let extracted = grid.extractAlive()
+        
+        XCTAssertNotNil(extracted)
+    }
+    
+    func testExtractionFromFullyAliveIsEqualToOrigin() {
+        let grid = Grid<CellState>([[.alive, .alive], [.alive, .alive]])
+        
+        let extracted = grid.extractAlive()
+        XCTAssertEqual(grid, extracted)
+    }
+    
+    func testExtractedOfSideOne() {
+        let grid = Grid<CellState>(from: [[.alive]], width: 3, height: 3, default: .dead)
+        let targetGrid: Grid<CellState> = Grid([[.alive]])
+        
+        let extracted = grid.extractAlive()
+        XCTAssertEqual(extracted, Optional(targetGrid))
+    }
+    
+    func testExtractedOfSideTwo() {
+        /* d d d
+         d a a
+         d a a*/
+        let grid = Grid<CellState>(from: [[], [.dead, .alive, .alive], [.dead, .alive, .alive]], width: 3, height: 3, default: .dead)
+        let targetGrid:Grid<CellState> = Grid(width: 2, height: 2, repeating: .alive)
+        
+        let extracted = grid.extractAlive()
+        XCTAssertEqual(extracted, Optional(targetGrid))
+    }
+    
+    func testAnotherExtractedOfSideTwo() {
+        /* a d d
+         a d d
+         d d d*/
+        let grid = Grid<CellState>(from: [[.alive], [.alive], []], width: 3, height: 3, default: .dead)
+        let targetGrid:Grid<CellState> = Grid([[.alive], [.alive]])
+        
+        let extracted = grid.extractAlive()
+        XCTAssertEqual(extracted, Optional(targetGrid))
+    }
+    
+    func testAnotherExtractedOfSideThree() {
+        /* a a a
+         d d d
+         d d d*/
+        let grid = Grid<CellState>(from: [[.alive, .alive, .alive], [], []], width: 3, height: 3, default: .dead)
+        let targetGrid:Grid<CellState> = Grid([[.alive, .alive, .alive]])
+        
+        let extracted = grid.extractAlive()
+        XCTAssertEqual(extracted, Optional(targetGrid))
+    }
 }
