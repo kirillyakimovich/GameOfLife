@@ -68,6 +68,28 @@ class GridTests: XCTestCase {
     }
 }
 
+// MARK: Equatable
+extension GridTests {
+    func testIsEqualToSelf() {
+        let grid = Grid(side: 3, repeating: 10)
+        XCTAssertEqual(grid, grid)
+    }
+    
+    func testGridsWithDifferentSizesButSameElementsAreNotEqual() {
+        let grid1 = Grid(side: 1, repeating: 3)
+        let grid2 = Grid(side: 3, repeating: 3)
+        
+        XCTAssertNotEqual(grid1, grid2)
+    }
+    
+    func testGridsWithSameSizeButDifferentElementsAreNotEqual() {
+        let grid1 = Grid(side: 3, repeating: 2)
+        let grid2 = Grid(side: 3, repeating: 5)
+        
+        XCTAssertNotEqual(grid1, grid2)
+    }
+}
+
 extension GridTests {
     func testInitWithContentsWidthHeightDefault() {
         let grid = Grid(from: [[0], [1], [2, 3, 4]], width: 4, height: 4, default: -1)
@@ -86,7 +108,6 @@ extension GridTests {
         let targetGrid = Grid([[0, -1, -1, -1], [1, -1, -1, -1], [2, 3, 4, -1,], [-1, -1, -1, -1], [-1, -1, -1, -1]])
         XCTAssertEqual(grid, targetGrid)
     }
-
 }
 
 // MARK: Appending and inserting

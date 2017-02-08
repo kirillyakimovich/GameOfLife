@@ -28,6 +28,10 @@ struct Grid<Element> where Element: Equatable {
         grid = Array<Element>(repeatElement(element, count: width * height))
     }
     
+    init(side: Int, repeating element: Element) {
+        self.init(width: side, height: side, repeating: element)
+    }
+    
     init(_ contents: [[Element]]) {
         let rows = contents.count
         assert(rows > 0)

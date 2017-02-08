@@ -81,12 +81,6 @@ extension LifeModel {
     }
 }
 
-extension LifeModel: Equatable {
-    static func ==(lhs: LifeModel, rhs: LifeModel) -> Bool {
-        return lhs.grid == rhs.grid
-    }
-}
-
 extension LifeModel {
     public func neighBours(x: Int, y: Int) -> [CellState] {
         var result = [CellState]()
