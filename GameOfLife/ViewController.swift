@@ -15,7 +15,8 @@ class ViewController: UIViewController {
         didSet {
             if let lifeModel = lifeModel {
                 lifeModel.delegate = self
-                gridView.lifeModel = lifeModel
+                gridView.datasource = lifeModel
+                gridView.touchAt = lifeModel.toggleAt(x:y:)
                 gridView.setNeedsDisplay()
                 updateView()
             }
@@ -58,7 +59,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        lifeModel = LifeModel(width: side, height: side + 3)
+        let grid = Grid(side: 10, repeating: CellState.dead)
+        lifeModel = LifeModel(grid: grid)
     }
     
     func updateView() {

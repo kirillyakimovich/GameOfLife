@@ -9,12 +9,5 @@
 import XCTest
 @testable import GameOfLife
 
-class LifeModelTests: XCTestCase {
-    
-    func testInitiallyIsDead() {
-        let gm = LifeModel(side: 2)
-        let isDead = gm.isDead()
-        
-        XCTAssertTrue(isDead)
-    }
+class LifeModelTests: XCTestCase {    
 }

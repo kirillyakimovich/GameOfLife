@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit.UIColor
 
 protocol LifeModelDelegate: class {
     func LifeModelUpdated(_ LifeModel: LifeModel)
@@ -15,7 +16,7 @@ protocol LifeModelDelegate: class {
 class LifeModel {
     weak var delegate: LifeModelDelegate?
     
-    public fileprivate(set) var grid: Grid<CellState> {
+    public var grid: Grid<CellState> {
         didSet {
             delegate?.LifeModelUpdated(self)
         }
@@ -32,13 +33,11 @@ class LifeModel {
     init(grid: Grid<CellState>) {
         self.grid = grid
     }
-    
-    convenience init(width: Int, height: Int) {
-        self.init(grid: Grid(width: width, height: height, repeating: .dead))
-    }
-    
-    convenience init(side: Int) {
-        self.init(width: side, height: side)
+}
+
+extension LifeModel: GridViewDataSource {
+    func colorAt(_ x: Int, _ y: Int) -> UIColor {
+        return isAliveAt(x: x, y: y) ? .black : .white
     }
 }
 

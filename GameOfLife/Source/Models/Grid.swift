@@ -126,6 +126,7 @@ struct Grid<Element> where Element: Equatable {
     }
 }
 
+// MARK: Equatable
 extension Grid: Equatable {
     public static func ==(lhs: Grid<Element>, rhs: Grid<Element>) -> Bool {
         return lhs.grid == rhs.grid
