@@ -19,17 +19,13 @@ protocol GridViewDataSource {
     func colorAt(_ x: Int, _ y: Int) -> UIColor
 }
 
-protocol GridViewDelegate {
-    func touchAt(_ x: Int, _ y: Int)
-}
-
 class GridView: UIView {
     var gridColor = UIColor.gray
     var aliveColor = UIColor.black
     var deadColor = UIColor.white
     
     var datasource: GridViewDataSource?
-    var touchAt: ((Int, Int) -> ())?
+    var didSelecteCellAt: ((Int, Int) -> ())?
 
     fileprivate var activeRect: CGRect = CGRect.zero
     var drawingMode: DrawingMode = .square
@@ -132,7 +128,7 @@ class GridView: UIView {
 
 extension GridView {
     func touchAction(_ sender:UITapGestureRecognizer) {
-        guard let touchAt = touchAt else {
+        guard let didSelecteCellAt = didSelecteCellAt else {
             return
         }
         
@@ -145,6 +141,6 @@ extension GridView {
         
         let column = ((location.x - activeRect.minX) / (xStep)).rounded(.towardZero)
         let row = ((location.y - activeRect.minY) / (yStep)).rounded(.towardZero)
-        touchAt(Int(row), Int(column))
+        didSelecteCellAt(Int(row), Int(column))
     }
 }

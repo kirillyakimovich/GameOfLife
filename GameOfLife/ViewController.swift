@@ -16,8 +16,7 @@ class ViewController: UIViewController {
             if let lifeModel = lifeModel {
                 lifeModel.delegate = self
                 gridView.datasource = lifeModel
-                gridView.touchAt = lifeModel.toggleAt(x:y:)
-                gridView.setNeedsDisplay()
+                gridView.didSelecteCellAt = lifeModel.toggleAt(x:y:)
                 updateView()
             }
         }
@@ -64,6 +63,7 @@ class ViewController: UIViewController {
     }
     
     func updateView() {
+        gridView.setNeedsDisplay()
         stepButton.isEnabled = !timeModel.isTicking
         var title: String
         if timeModel.isTicking {
