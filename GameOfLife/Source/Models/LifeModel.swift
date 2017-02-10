@@ -15,7 +15,7 @@ protocol LifeModelDelegate: class {
 
 class LifeModel {
     weak var delegate: LifeModelDelegate?
-    
+    public var adjacencyMode: AdjacencyMode
     public var grid: Grid<CellState> {
         didSet {
             delegate?.LifeModelUpdated(self)
@@ -32,6 +32,7 @@ class LifeModel {
     
     init(grid: Grid<CellState>) {
         self.grid = grid
+        self.adjacencyMode = .bounded
     }
 }
 
@@ -67,7 +68,7 @@ extension LifeModel {
         for row in 0..<height {
             for column in 0..<width {
                 let cell = grid[row, column]
-                let aliveNeighbours = neighBours(x: row, y: column).filter{ $0 == .alive }
+                let aliveNeighbours = neighBours(x: row, y: column, mode: adjacencyMode).filter{ $0 == .alive }
                 let shouldSwitch = cell.shouldSwitch(aliveNeighbours: aliveNeighbours.count)
                 if shouldSwitch {
                     nextGrid[row, column] = nextGrid[row, column].switched()
@@ -81,7 +82,7 @@ extension LifeModel {
 }
 
 extension LifeModel {
-    public func neighBours(x: Int, y: Int) -> [CellState] {
+    public func neighBours(x: Int, y: Int, mode: AdjacencyMode) -> [CellState] {
         var result = [CellState]()
         for xIndex in (x - 1)...(x + 1) {
             for yIndex in (y - 1)...(y + 1) {
@@ -89,7 +90,9 @@ extension LifeModel {
                     continue
                 }
                 
-                result.append(grid[cycledRow: xIndex, cycledColumn: yIndex])
+                if let neigbour = grid[xIndex, yIndex, mode] {
+                    result.append(neigbour)
+                }
             }
         }
         return result

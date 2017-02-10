@@ -31,8 +31,13 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var sizeStepper: UIStepper!
     @IBAction func onSizeChange(_ sender: UIStepper) {
+        guard let lifeModel = lifeModel else {
+            return
+        }
+        
+        let currentHeight = Int(sender.value)
+        lifeModel.grid.insetBy(dx: lifeModel.height - currentHeight, dy: 0, repeating: .dead)
     }
-    
     
     @IBOutlet weak var stateButton: UIButton!
     @IBAction func toggle(_ sender: Any) {
@@ -72,6 +77,7 @@ class ViewController: UIViewController {
             title = "Start"
         }
         stateButton.setTitle(title, for: .normal)
+        sizeStepper.value = Double(lifeModel!.grid.height)
     }
 }
 
