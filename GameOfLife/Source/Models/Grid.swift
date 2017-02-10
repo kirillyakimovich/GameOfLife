@@ -8,6 +8,11 @@
 
 import Foundation
 
+enum AdjacencyMode {
+    case bounded
+    case cycled
+}
+
 struct Grid<Element> where Element: Equatable {
     public fileprivate(set) var width: Int // number of columns
     public fileprivate(set) var height: Int // number of rows
@@ -44,7 +49,7 @@ struct Grid<Element> where Element: Equatable {
         }
     }
     
-    /// This initializer is needed for cases, when contents is not rectangular or there are some missed rows 
+    /// This initializer is needed for cases, when contents is not rectangular or there are some missed rows
     /// If some row contains more than width values, reminded will be just ignored
     /// - Parameters:
     ///   - contents: array of arrays of elements
@@ -75,7 +80,7 @@ struct Grid<Element> where Element: Equatable {
         }
     }
     
-    subscript (cycledRow row: Int, cycledColumn column: Int) -> Element {
+    subscript(cycledRow row: Int, cycledColumn column: Int) -> Element {
         var safeRow = row
         if row >= height {
             safeRow = 0
@@ -91,6 +96,18 @@ struct Grid<Element> where Element: Equatable {
         }
         
         return self[safeRow, safeColumn]
+    }
+    
+    subscript(row: Int, column: Int, mode: AdjacencyMode) -> Element? {
+        switch mode {
+        case .cycled:
+            return self[cycledRow: row, cycledColumn: column]
+        case .bounded:
+            if row >= 0 && row < height && column >= 0 && column < width {
+                return self[row, column]
+            }
+            return nil
+        }
     }
     
     subscript(row row: Int) -> [Element] {

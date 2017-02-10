@@ -43,12 +43,40 @@ class GridTests: XCTestCase {
         XCTAssertEqual(grid, Grid([[-7, 2], [-8, 4], [-9, 6]]))
     }
     
+    func testNormalCycledSubscript() {
+        XCTAssertEqual(grid[cycledRow: 0, cycledColumn: 1], 2)
+    }
+    
     func testBackwardCycledSubscript() {
         XCTAssertEqual(grid[cycledRow: -1, cycledColumn: -1], 6)
     }
     
     func testForwardCycledSubscript() {
         XCTAssertEqual(grid[cycledRow: 100, cycledColumn: 100], 1)
+    }
+    
+    func testNormalSubscriptWithCycledMode() {
+        XCTAssertEqual(grid[2, 0, .cycled], 5)
+    }
+    
+    func testBackwardSubscriptWithCycledMode() {
+        XCTAssertEqual(grid[-1, -1, .cycled], 6)
+    }
+    
+    func testForwardSubscriptWithCycledMode() {
+        XCTAssertEqual(grid[100, 100, .cycled], 1)
+    }
+    
+    func testNormalSubscriptWithBoundedMode() {
+        XCTAssertEqual(grid[1, 1, .bounded], 4)
+    }
+    
+    func testBackwardSubscriptWithBoundedMode() {
+        XCTAssertEqual(grid[-1, -1, .bounded], nil)
+    }
+    
+    func testForwardSubscriptWithBoundedMode() {
+        XCTAssertEqual(grid[100, 100, .bounded], nil)
     }
 
     func testContainsReturnsTrueForPresetnElement() {
