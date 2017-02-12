@@ -9,6 +9,12 @@
 import XCTest
 @testable import GameOfLife
 
+extension Int: Colorable {
+    public func color() -> UIColor {
+        return .clear
+    }
+}
+
 class GridTests: XCTestCase {
     var grid = Grid([[1, 2], [3, 4], [5, 6]])
     
