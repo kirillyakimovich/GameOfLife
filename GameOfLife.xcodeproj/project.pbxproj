@@ -28,6 +28,8 @@
 		6BBDA9BA1E475D71002508C2 /* LifeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBDA9B21E475D71002508C2 /* LifeModel.swift */; };
 		6BBDA9BB1E475D71002508C2 /* TimeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBDA9B31E475D71002508C2 /* TimeModel.swift */; };
 		6BBDA9BE1E475D71002508C2 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBDA9B71E475D71002508C2 /* GridView.swift */; };
+		6BBF935B1E4E56160025D31F /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF935A1E4E56160025D31F /* GridCollectionViewCell.swift */; };
+		6BBF935F1E4E62140025D31F /* GridsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF935E1E4E62140025D31F /* GridsCollectionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +77,8 @@
 		6BBDA9B21E475D71002508C2 /* LifeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LifeModel.swift; sourceTree = "<group>"; };
 		6BBDA9B31E475D71002508C2 /* TimeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeModel.swift; sourceTree = "<group>"; };
 		6BBDA9B71E475D71002508C2 /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
+		6BBF935A1E4E56160025D31F /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
+		6BBF935E1E4E62140025D31F /* GridsCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridsCollectionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,8 +203,8 @@
 		6BBDA9AF1E475D71002508C2 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				6BBDA9B01E475D71002508C2 /* CellState.swift */,
 				6BBDA9B11E475D71002508C2 /* Grid.swift */,
+				6BBDA9B01E475D71002508C2 /* CellState.swift */,
 				6BBDA9B21E475D71002508C2 /* LifeModel.swift */,
 				6BBDA9B31E475D71002508C2 /* TimeModel.swift */,
 			);
@@ -210,6 +214,8 @@
 		6BBDA9B41E475D71002508C2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6BBF935A1E4E56160025D31F /* GridCollectionViewCell.swift */,
+				6BBF935E1E4E62140025D31F /* GridsCollectionViewController.swift */,
 				6BBDA9B71E475D71002508C2 /* GridView.swift */,
 			);
 			path = Views;
@@ -357,7 +363,9 @@
 				6BBDA9BA1E475D71002508C2 /* LifeModel.swift in Sources */,
 				6BBDA9B81E475D71002508C2 /* CellState.swift in Sources */,
 				6B42F2661E43B716005DA38E /* RLERepresentable.swift in Sources */,
+				6BBF935F1E4E62140025D31F /* GridsCollectionViewController.swift in Sources */,
 				6BBDA9BB1E475D71002508C2 /* TimeModel.swift in Sources */,
+				6BBF935B1E4E56160025D31F /* GridCollectionViewCell.swift in Sources */,
 				6B3E1AC71DE4D66F00D76B4A /* ViewController.swift in Sources */,
 				6BBDA9AD1E475CB2002508C2 /* SequenceExtensions.swift in Sources */,
 				6BBDA9B91E475D71002508C2 /* Grid.swift in Sources */,
