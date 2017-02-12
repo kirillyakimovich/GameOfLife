@@ -399,3 +399,34 @@ extension GridTests {
         XCTAssertEqual(extracted, Optional(targetGrid))
     }
 }
+
+// MARK: Moving element
+extension GridTests {
+    func testMovingElementByZeroWillNotModifyGrid() {
+        let initial = grid
+        grid.moveElement(at: 1, 1, by: 0, 0, placeholder: 0)
+        XCTAssertEqual(grid, initial)
+    }
+    
+    func testMovingElementToTop() {
+        grid.moveElement(at: 1, 0, by: 0, -1, placeholder: 0)
+        XCTAssertEqual(grid, Grid([[3, 2], [0, 4], [5, 6]]))
+    }
+    
+    func testMovingElementToBottom() {
+        grid.moveElement(at: 0, 0, by: 0, 1, placeholder: 0)
+        XCTAssertEqual(grid, Grid([[0, 2], [1, 4], [5, 6]]))
+    }
+    
+    func testMovingElementToTheLeft() {
+        grid.moveElement(at: 0, 1, by: -1, 0, placeholder: 0)
+        XCTAssertEqual(grid, Grid([[2, 0], [3, 4], [5, 6]]))
+    }
+
+    func testMovingElementToTheRight() {
+        grid.moveElement(at: 2, 0, by: 1, 0, placeholder: 0)
+        XCTAssertEqual(grid, Grid([[1, 2], [3, 4], [0, 5]]))
+    }
+}
+
+

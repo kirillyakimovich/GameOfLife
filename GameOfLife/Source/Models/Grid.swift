@@ -294,6 +294,29 @@ extension Grid where Element == CellState {
     }
 }
 
+// MARK: Moving 
+extension Grid {
+    mutating func moveElement(at row: Int, _ column: Int, by dx: Int, _ dy: Int, placeholder: Element) {
+        if dx == 0 && dy == 0 {
+            return
+        }
+        assert(row >= 0)
+        assert(row < height)
+        let newRow = row + dy
+        assert(newRow >= 0)
+        assert(newRow < height)
+        assert(column >= 0)
+        assert(column < width)
+        let newColumn = column + dx
+        assert(newColumn >= 0)
+        assert(newColumn < width)
+        
+        let element = self[row, column]
+        self[row, column] = placeholder
+        self[newRow, newColumn] = element
+    }
+}
+
 // MARK: GridViewDataSource
 extension Grid: GridViewDataSource {
     func colorableAt(_ x: Int, _ y: Int) -> Colorable {
