@@ -9,8 +9,8 @@
 import Foundation
 
 /// http://www.conwaylife.com/wiki/RLE
+/// https://en.wikipedia.org/wiki/Run-length_encoding
 /// Run Length Encoded (RLE)
-/// Probably there is an academia name for such compression, but i don't know it
 /// Line is encoded as a sequence of items of the form <run_count><symbol>, where <run_count> is the number of occurrences of <symbol>. <run_count> can be omitted if it is equal to 1
 /// Example: after compression line "abbaaa" is "a2b3a"
 
