@@ -41,18 +41,20 @@ protocol RLERepresentable {
 }
 
 extension RLERepresentable {
-    init(with RLERepresentation: String) { self.init(with: RLERepresentation) }
+    init?(with RLERepresentation: String) { return nil }
     func header(width: Int, height: Int) -> String {
         return "x = \(width), y = \(height)"
     }
 }
 
-extension LifeModel: RLERepresentable {
-    internal func RLERepresentation() -> String {
+extension Grid: RLERepresentable {
+    func RLERepresentation() -> String {
         return header(width: self.width, height: self.height)
     }
+}
 
-    convenience init?(with RLERepresentation: String) {
+extension Grid where Element == CellState {
+    init?(with RLERepresentation: String) {
         var lines = [String]()
         RLERepresentation.enumerateLines(invoking: { (line, _) in
             lines.append(line)
@@ -68,11 +70,10 @@ extension LifeModel: RLERepresentable {
             let contents = rows.map{ row in
                 return row.expandTags().characters.map { return CellState(rleTag: $0) }
             }
-            var grid = Grid(from: contents, width: header.x, height: header.y, default: CellState.dead)
-            grid.insetBy(dx: -1, dy: -1, repeating: .dead)
-            self.init(grid: grid)
+            self.init(from: contents, width: header.x, height: header.y, default: CellState.dead)
         } else {
             return nil
         }
     }
+    
 }

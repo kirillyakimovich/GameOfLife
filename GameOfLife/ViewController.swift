@@ -56,7 +56,9 @@ class ViewController: UIViewController {
     @IBAction func tapOnLoad(_ sender: UIButton) {
         if let url = Bundle.main.url(forResource: "gosperglidergun", withExtension: "rle", subdirectory: "Patterns") {
             if let contents = try? String(contentsOf: url) {
-                lifeModel = LifeModel(with: contents)
+                if let grid = Grid(with: contents) {
+                    lifeModel = LifeModel(grid: grid)
+                }
             }
         }
     }

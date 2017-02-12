@@ -13,7 +13,7 @@ enum AdjacencyMode {
     case cycled
 }
 
-struct Grid<Element> where Element: Equatable {
+struct Grid<Element> where Element: Equatable & Colorable {
     public fileprivate(set) var width: Int // number of columns
     public fileprivate(set) var height: Int // number of rows
     fileprivate var grid: Array<Element>
@@ -291,5 +291,12 @@ extension Grid {
 extension Grid where Element == CellState {
     func extractAlive() -> Grid {
         return self.extractSignificantPart { return $0 == .alive }
+    }
+}
+
+// MARK: GridViewDataSource
+extension Grid: GridViewDataSource {
+    func colorableAt(_ x: Int, _ y: Int) -> Colorable {
+        return self[x, y]
     }
 }

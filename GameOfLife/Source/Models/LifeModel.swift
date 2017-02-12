@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import UIKit.UIColor
 
 protocol LifeModelDelegate: class {
     func LifeModelUpdated(_ LifeModel: LifeModel)
@@ -33,12 +32,6 @@ class LifeModel {
     init(grid: Grid<CellState>) {
         self.grid = grid
         self.adjacencyMode = .bounded
-    }
-}
-
-extension LifeModel: GridViewDataSource {
-    func colorAt(_ x: Int, _ y: Int) -> UIColor {
-        return isAliveAt(x: x, y: y) ? .black : .white
     }
 }
 
@@ -114,9 +107,9 @@ extension LifeModel {
     }
 }
 
-// MARK: CustomStringConvertible
-extension LifeModel: CustomStringConvertible {
-    public var description: String {
-        return RLERepresentation()
+// MARK: GridViewDataSource
+extension LifeModel: GridViewDataSource {
+    func colorableAt(_ x: Int, _ y: Int) -> Colorable {
+        return grid[x, y]
     }
 }

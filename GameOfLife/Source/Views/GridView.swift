@@ -13,10 +13,25 @@ enum DrawingMode {
     case square // keeping every frame square. useful when width and height are different
 }
 
+protocol Colorable {
+    func color() -> UIColor
+}
+
+extension CellState: Colorable {
+    func color() -> UIColor {
+        switch self {
+        case .dead:
+            return .white
+        case .alive:
+            return .black
+        }
+    }
+}
+
 protocol GridViewDataSource {
     var width: Int { get }
     var height: Int { get }
-    func colorAt(_ x: Int, _ y: Int) -> UIColor
+    func colorableAt(_ x: Int, _ y: Int) -> Colorable
 }
 
 class GridView: UIView {
@@ -88,7 +103,7 @@ class GridView: UIView {
         let yStep = stepLength(spread: rect.size.height, dencity: datasource.height)
         for row in 0..<datasource.height {
             for column in 0..<datasource.width {
-                context.setFillColor(datasource.colorAt(row, column).cgColor)
+                context.setFillColor(datasource.colorableAt(row, column).color().cgColor)
                 let cellRect = CGRect(x: rect.minX + CGFloat(column) * xStep,
                                       y: rect.minY + CGFloat(row) * yStep,
                                       width: xStep,
