@@ -12,22 +12,22 @@ import XCTest
 class GridRectTests: XCTestCase {
     var rect = CGRect(x: 0, y: 0, width: 10, height: 20)
     
-    func testXStep1() {
+    func testXStep10() {
         let gr = GridRect(rect, rows: 1, columns: 1)
         XCTAssertEqual(gr.xStep, 10)
     }
     
-    func testXStep2() {
+    func testXStep1() {
         let gr = GridRect(rect, rows: 1, columns: 10)
         XCTAssertEqual(gr.xStep, 1)
     }
     
-    func testYStep1() {
+    func testYStep20() {
         let gr = GridRect(rect, rows: 1, columns: 1)
         XCTAssertEqual(gr.yStep, 20)
     }
     
-    func testYStep2() {
+    func testYStep4() {
         let gr = GridRect(rect, rows: 5, columns: 10)
         XCTAssertEqual(gr.yStep, 4)
     }

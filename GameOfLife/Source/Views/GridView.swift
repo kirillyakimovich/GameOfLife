@@ -42,7 +42,8 @@ class GridView: UIView {
     var datasource: GridViewDataSource?
     var didSelecteCellAt: ((Int, Int) -> ())?
 
-    fileprivate var activeRect: CGRect = CGRect.zero
+    fileprivate var activeRect: GridRect
+    
     var drawingMode: DrawingMode = .square
     
     lazy var touchRecognizer: UITapGestureRecognizer = {
@@ -50,6 +51,8 @@ class GridView: UIView {
     } ()
     
     override init(frame: CGRect) {
+        activeRect = GridRect(CGRect(x: 0, y: 0, width: frame.width, height: frame.height),
+                              rows: 1, columns: 1)
         super.init(frame: frame)
         self.addGestureRecognizer(touchRecognizer)
     }
@@ -58,6 +61,8 @@ class GridView: UIView {
         if let datasource = aDecoder.decodeObject(forKey: "dataSource") as? GridViewDataSource {
             self.datasource = datasource
         }
+        activeRect = GridRect(CGRect(x: 0, y: 0, width: 1, height: 1),
+                              rows: 1, columns: 1)
         super.init(coder: aDecoder)
         self.addGestureRecognizer(touchRecognizer)
     }
@@ -135,7 +140,7 @@ class GridView: UIView {
             rect = rect.insetBy(dx: xInset, dy: yInset)
         }
         
-        activeRect = rect
+        activeRect = GridRect(rect, rows: datasource.height, columns: datasource.width)
         draw(contents: datasource, at: rect, in: context)
         draw(datasource, at: rect, in: context)
     }
@@ -148,14 +153,14 @@ extension GridView {
         }
         
         let location = sender.location(in: self)
-        guard activeRect.contains(location) else {
+        guard activeRect.rect.contains(location) else {
             return
         }
-        let xStep = stepLength(spread: activeRect.size.width, dencity: datasource!.width)
-        let yStep = stepLength(spread: activeRect.size.height, dencity: datasource!.height)
+        let xStep = activeRect.xStep
+        let yStep = activeRect.yStep
         
-        let column = ((location.x - activeRect.minX) / (xStep)).rounded(.towardZero)
-        let row = ((location.y - activeRect.minY) / (yStep)).rounded(.towardZero)
+        let column = ((location.x - activeRect.rect.minX) / (xStep)).rounded(.towardZero)
+        let row = ((location.y - activeRect.rect.minY) / (yStep)).rounded(.towardZero)
         didSelecteCellAt(Int(row), Int(column))
     }
 }

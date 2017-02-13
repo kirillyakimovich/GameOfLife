@@ -28,10 +28,10 @@ struct GridRect {
     }
     
     public var xStep: CGFloat {
-        return stepLength(spread: rect.size.width, dencity: columns)
+        return stepLength(spread: rect.width, dencity: columns)
     }
     
     public var yStep: CGFloat {
-        return stepLength(spread: rect.size.height, dencity: rows)
+        return stepLength(spread: rect.height, dencity: rows)
     }
 }
