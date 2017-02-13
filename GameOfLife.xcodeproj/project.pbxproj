@@ -21,6 +21,8 @@
 		6B42F2661E43B716005DA38E /* RLERepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B42F2651E43B716005DA38E /* RLERepresentable.swift */; };
 		6B42F2681E43C1EA005DA38E /* Patterns in Resources */ = {isa = PBXBuildFile; fileRef = 6B42F2671E43C1EA005DA38E /* Patterns */; };
 		6B56E3071E4762F70093886E /* CellStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B56E3061E4762F70093886E /* CellStateTests.swift */; };
+		6B7B46911E5248AF00F833DF /* GridRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B46901E5248AF00F833DF /* GridRect.swift */; };
+		6B7B46931E524A7D00F833DF /* GridRectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7B46921E524A7D00F833DF /* GridRectTests.swift */; };
 		6BBDA9AD1E475CB2002508C2 /* SequenceExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBDA9AB1E475CB2002508C2 /* SequenceExtensions.swift */; };
 		6BBDA9AE1E475CB2002508C2 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBDA9AC1E475CB2002508C2 /* StringExtensions.swift */; };
 		6BBDA9B81E475D71002508C2 /* CellState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBDA9B01E475D71002508C2 /* CellState.swift */; };
@@ -70,6 +72,8 @@
 		6B42F2651E43B716005DA38E /* RLERepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RLERepresentable.swift; sourceTree = "<group>"; };
 		6B42F2671E43C1EA005DA38E /* Patterns */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Patterns; sourceTree = "<group>"; };
 		6B56E3061E4762F70093886E /* CellStateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellStateTests.swift; sourceTree = "<group>"; };
+		6B7B46901E5248AF00F833DF /* GridRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridRect.swift; sourceTree = "<group>"; };
+		6B7B46921E524A7D00F833DF /* GridRectTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridRectTests.swift; sourceTree = "<group>"; };
 		6BBDA9AB1E475CB2002508C2 /* SequenceExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceExtensions.swift; sourceTree = "<group>"; };
 		6BBDA9AC1E475CB2002508C2 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		6BBDA9B01E475D71002508C2 /* CellState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellState.swift; sourceTree = "<group>"; };
@@ -123,6 +127,7 @@
 				6B56E3061E4762F70093886E /* CellStateTests.swift */,
 				6B3662801E476201007753BB /* GridTests.swift */,
 				6B36627F1E476201007753BB /* LifeModelTests.swift */,
+				6B7B46921E524A7D00F833DF /* GridRectTests.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -207,6 +212,7 @@
 				6BBDA9B01E475D71002508C2 /* CellState.swift */,
 				6BBDA9B21E475D71002508C2 /* LifeModel.swift */,
 				6BBDA9B31E475D71002508C2 /* TimeModel.swift */,
+				6B7B46901E5248AF00F833DF /* GridRect.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -364,6 +370,7 @@
 				6BBDA9B81E475D71002508C2 /* CellState.swift in Sources */,
 				6B42F2661E43B716005DA38E /* RLERepresentable.swift in Sources */,
 				6BBF935F1E4E62140025D31F /* GridsCollectionViewController.swift in Sources */,
+				6B7B46911E5248AF00F833DF /* GridRect.swift in Sources */,
 				6BBDA9BB1E475D71002508C2 /* TimeModel.swift in Sources */,
 				6BBF935B1E4E56160025D31F /* GridCollectionViewCell.swift in Sources */,
 				6B3E1AC71DE4D66F00D76B4A /* ViewController.swift in Sources */,
@@ -379,6 +386,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B3662861E476201007753BB /* SequenceExtensionsTests.swift in Sources */,
+				6B7B46931E524A7D00F833DF /* GridRectTests.swift in Sources */,
 				6B3E1ADA1DE4D66F00D76B4A /* GameOfLifeTests.swift in Sources */,
 				6B3662851E476201007753BB /* GridTests.swift in Sources */,
 				6B3662871E476201007753BB /* StringExtensionsTests.swift in Sources */,
