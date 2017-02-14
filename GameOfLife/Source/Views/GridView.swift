@@ -153,14 +153,9 @@ extension GridView {
         }
         
         let location = sender.location(in: self)
-        guard activeRect.rect.contains(location) else {
+        guard let cell = activeRect.cell(for: location) else {
             return
         }
-        let xStep = activeRect.xStep
-        let yStep = activeRect.yStep
-        
-        let column = ((location.x - activeRect.rect.minX) / (xStep)).rounded(.towardZero)
-        let row = ((location.y - activeRect.rect.minY) / (yStep)).rounded(.towardZero)
-        didSelecteCellAt(Int(row), Int(column))
+        didSelecteCellAt(cell.row, cell.column)
     }
 }
