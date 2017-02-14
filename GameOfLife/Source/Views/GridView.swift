@@ -45,15 +45,24 @@ class GridView: UIView {
 
     fileprivate var activeRect: GridRect
     
+    // lazyness is needed to allow selectors to be defined in extensions
     lazy var touchRecognizer: UITapGestureRecognizer = {
-        UITapGestureRecognizer(target: self, action: #selector(self.touchAction(_:)) )
+        UITapGestureRecognizer(target: self, action: #selector(self.touchAction(_:)))
     } ()
+    
+    lazy var longPressRecognizer: UILongPressGestureRecognizer = {
+        UILongPressGestureRecognizer(target: self, action: #selector(self.longPressAction(_:)))
+    }()
+    
+    fileprivate var startCell: GridCell?
+    fileprivate var movingView: UIView?
     
     override init(frame: CGRect) {
         activeRect = GridRect(CGRect(x: 0, y: 0, width: frame.width, height: frame.height),
                               rows: 1, columns: 1)
         super.init(frame: frame)
         self.addGestureRecognizer(touchRecognizer)
+        self.addGestureRecognizer(longPressRecognizer)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -64,6 +73,7 @@ class GridView: UIView {
                               rows: 1, columns: 1)
         super.init(coder: aDecoder)
         self.addGestureRecognizer(touchRecognizer)
+        self.addGestureRecognizer(longPressRecognizer)
     }
     
     override func encode(with aCoder: NSCoder) {
@@ -128,7 +138,7 @@ class GridView: UIView {
 }
 
 extension GridView {
-    func touchAction(_ sender:UITapGestureRecognizer) {
+    func touchAction(_ sender: UITapGestureRecognizer) {
         guard let didSelecteCellAt = didSelecteCellAt else {
             return
         }
@@ -139,5 +149,37 @@ extension GridView {
         }
         
         didSelecteCellAt(cell.row, cell.column)
+    }
+}
+
+extension GridView {
+    func longPressAction(_ sender: UILongPressGestureRecognizer) {
+        let location = sender.location(in: self)
+        let cell = activeRect.cell(for: location)
+        if cell == nil {
+            sender.isEnabled = false
+            sender.isEnabled = true
+        } else if self.movingView == nil {
+            self.movingView = UIView(frame: cell!.frame)
+            self.movingView?.backgroundColor = UIColor.red
+            self.addSubview(self.movingView!)
+        }
+        
+        switch sender.state {
+        case .began:
+            startCell = cell
+            fallthrough
+        case .changed:
+            self.movingView?.frame = cell!.frame
+//        case .ended:
+//            if let startCell = startCell {
+//                moveElement(from: startCell.row, startCell.column, to: cell!.row, cell!.column, placeholder: .dead)
+//                startCell = nil
+//            }
+            
+        default:
+            self.movingView?.removeFromSuperview()
+            self.movingView = nil
+        }
     }
 }

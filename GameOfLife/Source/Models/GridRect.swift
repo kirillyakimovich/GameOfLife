@@ -42,9 +42,11 @@ struct GridRect {
         
         let column = Int(((point.x - rect.minX) / (xStep)).rounded(.towardZero))
         let row = Int(((point.y - rect.minY) / (yStep)).rounded(.towardZero))
-
-        return GridCell(row: row, column: column)
+        let frame = frameFor(row: row, column: column)
+        
+        return GridCell(row: row, column: column, frame: frame)
     }
+    
 }
 
 typealias GridLine = (start: CGPoint, end: CGPoint)
@@ -81,15 +83,18 @@ extension GridRect {
 }
 
 extension GridRect {
+    func frameFor(row: Int, column: Int) -> CGRect {
+        return CGRect(x: rect.minX + CGFloat(column) * xStep,
+                      y: rect.minY + CGFloat(row) * yStep,
+                      width: xStep,
+                      height: yStep)
+    }
     /// - Returns: All the cells  row by row, column by column
     func cells() -> [GridCell] {
         var cells = [GridCell]()
         for row in 0..<rows {
             for column in 0..<columns {
-                let frame = CGRect(x: rect.minX + CGFloat(column) * xStep,
-                                   y: rect.minY + CGFloat(row) * yStep,
-                                   width: xStep,
-                                   height: yStep)
+                let frame = frameFor(row: row, column: column)
                 let cell = GridCell(row: row, column: column, frame: frame)
                 cells.append(cell)
             }
