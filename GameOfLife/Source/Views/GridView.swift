@@ -76,7 +76,7 @@ class GridView: UIView {
         return spread / CGFloat(dencity)
     }
     
-    func draw(_ datasource: GridViewDataSource, at gridRect: GridRect, in context: CGContext) {
+    func drawGrid(_ gridRect: GridRect, in context: CGContext) {
         context.setStrokeColor(gridColor.cgColor)
         context.setLineWidth(1)
         
@@ -93,18 +93,10 @@ class GridView: UIView {
         }
     }
     
-    func draw(contents datasource: GridViewDataSource, at rect: CGRect, in context: CGContext) {
-        let xStep = stepLength(spread: rect.size.width, dencity: datasource.width)
-        let yStep = stepLength(spread: rect.size.height, dencity: datasource.height)
-        for row in 0..<datasource.height {
-            for column in 0..<datasource.width {
-                context.setFillColor(datasource.colorableAt(row, column).color().cgColor)
-                let cellRect = CGRect(x: rect.minX + CGFloat(column) * xStep,
-                                      y: rect.minY + CGFloat(row) * yStep,
-                                      width: xStep,
-                                      height: yStep)
-                context.fill(cellRect)
-            }
+    func draw(contents datasource: GridViewDataSource, at rect: GridRect, in context: CGContext) {
+        for cell in rect.cells() {
+            context.setFillColor(datasource.colorableAt(cell.row, cell.column).color().cgColor)
+            context.fill(cell.frame)
         }
     }
     
@@ -131,8 +123,8 @@ class GridView: UIView {
         }
         
         activeRect = GridRect(rect, rows: datasource.height, columns: datasource.width)
-        draw(contents: datasource, at: rect, in: context)
-        draw(datasource, at: activeRect, in: context)
+        draw(contents: datasource, at: activeRect, in: context)
+        drawGrid(activeRect, in: context)
     }
 }
 
