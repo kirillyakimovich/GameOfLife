@@ -32,6 +32,7 @@
 		6BBDA9BE1E475D71002508C2 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBDA9B71E475D71002508C2 /* GridView.swift */; };
 		6BBF935B1E4E56160025D31F /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF935A1E4E56160025D31F /* GridCollectionViewCell.swift */; };
 		6BBF935F1E4E62140025D31F /* GridsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF935E1E4E62140025D31F /* GridsCollectionViewController.swift */; };
+		EB2973751E53535800B58721 /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2973741E53535800B58721 /* GridCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		6BBDA9B71E475D71002508C2 /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
 		6BBF935A1E4E56160025D31F /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
 		6BBF935E1E4E62140025D31F /* GridsCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridsCollectionViewController.swift; sourceTree = "<group>"; };
+		EB2973741E53535800B58721 /* GridCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +215,7 @@
 				6BBDA9B21E475D71002508C2 /* LifeModel.swift */,
 				6BBDA9B31E475D71002508C2 /* TimeModel.swift */,
 				6B7B46901E5248AF00F833DF /* GridRect.swift */,
+				EB2973741E53535800B58721 /* GridCell.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -368,6 +371,7 @@
 				6BBDA9AE1E475CB2002508C2 /* StringExtensions.swift in Sources */,
 				6BBDA9BA1E475D71002508C2 /* LifeModel.swift in Sources */,
 				6BBDA9B81E475D71002508C2 /* CellState.swift in Sources */,
+				EB2973751E53535800B58721 /* GridCell.swift in Sources */,
 				6B42F2661E43B716005DA38E /* RLERepresentable.swift in Sources */,
 				6BBF935F1E4E62140025D31F /* GridsCollectionViewController.swift in Sources */,
 				6B7B46911E5248AF00F833DF /* GridRect.swift in Sources */,

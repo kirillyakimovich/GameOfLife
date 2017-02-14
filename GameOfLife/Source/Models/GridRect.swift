@@ -8,8 +8,6 @@
 
 import UIKit
 
-typealias GridCell = (row: Int, column: Int)
-
 struct GridRect {
     let rect: CGRect
     let rows: Int
@@ -25,7 +23,7 @@ struct GridRect {
         self.columns = columns
     }
     
-    private func stepLength(spread: CGFloat, dencity: Int) -> CGFloat{
+    private func stepLength(spread: CGFloat, dencity: Int) -> CGFloat {
         return spread / CGFloat(dencity)
     }
     
@@ -45,7 +43,7 @@ struct GridRect {
         let column = Int(((point.x - rect.minX) / (xStep)).rounded(.towardZero))
         let row = Int(((point.y - rect.minY) / (yStep)).rounded(.towardZero))
 
-        return (row, column)
+        return GridCell(row: row, column: column)
     }
 }
 
