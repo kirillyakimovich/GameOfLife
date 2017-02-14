@@ -79,3 +79,22 @@ extension GridRect {
         return guides
     }
 }
+
+extension GridRect {
+    /// - Returns: All the cells  row by row, column by column
+    func cells() -> [GridCell] {
+        var cells = [GridCell]()
+        for row in 0..<rows {
+            for column in 0..<columns {
+                let frame = CGRect(x: rect.minX + CGFloat(column) * xStep,
+                                   y: rect.minY + CGFloat(row) * yStep,
+                                   width: xStep,
+                                   height: yStep)
+                let cell = GridCell(row: row, column: column, frame: frame)
+                cells.append(cell)
+            }
+        }
+
+        return cells
+    }
+}

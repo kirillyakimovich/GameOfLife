@@ -68,7 +68,6 @@ extension GridRectTests {
 
 // MARK: guides
 extension GridRectTests {
-//    var rect = CGRect(x: 0, y: 0, width: 10, height: 20)
     func testHorizontalGuidesCount1() {
         let gr = GridRect(rect, rows: 1, columns: 1)
         XCTAssertEqual(gr.horizontalGuides.count, 2)
@@ -109,5 +108,35 @@ extension GridRectTests {
         let second = (start: CGPoint(x: 10, y:0), end: CGPoint(x: 10, y: 20))
         XCTAssert(gr.verticalGuides[0] == first)
         XCTAssert(gr.verticalGuides[1] == second)
+    }
+}
+
+// MARK : cells
+extension GridRectTests {
+    func testCellsCount1() {
+        let gr = GridRect(rect, rows: 1, columns: 1)
+        XCTAssertEqual(gr.cells().count, 1)
+    }
+    
+    func testCells1() {
+        let gr = GridRect(rect, rows: 1, columns: 1)
+        let targetCells = [GridCell(row: 0, column: 0, frame: rect)]
+        XCTAssertTrue(targetCells.elementsEqual(gr.cells()))
+    }
+    
+    func testCellsCount2() {
+        let gr = GridRect(rect, rows: 2, columns: 3)
+        XCTAssertEqual(gr.cells().count, 6)
+    }
+    
+    func testCells2() {
+        let gr = GridRect(rect, rows: 2, columns: 3)
+        let targetCells = [GridCell(row: 0, column: 0, frame: CGRect(x: 0, y: 0, width: gr.xStep, height: gr.yStep)),
+                           GridCell(row: 0, column: 1, frame: CGRect(x: gr.xStep, y: 0, width: gr.xStep, height: gr.yStep)),
+                           GridCell(row: 0, column: 2, frame: CGRect(x: 2 * gr.xStep, y: 0, width: gr.xStep, height: gr.yStep)),
+                           GridCell(row: 1, column: 0, frame: CGRect(x: 0, y: gr.yStep, width: gr.xStep, height: gr.yStep)),
+                           GridCell(row: 1, column: 1, frame: CGRect(x: gr.xStep, y: gr.yStep, width: gr.xStep, height: gr.yStep)),
+                           GridCell(row: 1, column: 2, frame: CGRect(x: 2 * gr.xStep, y: gr.yStep, width: gr.xStep, height: gr.yStep))]
+        XCTAssertTrue(targetCells.elementsEqual(gr.cells()))
     }
 }
