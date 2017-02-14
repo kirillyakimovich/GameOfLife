@@ -85,3 +85,49 @@ extension GridRectTests {
         
     }
 }
+
+// MARK: guides
+extension GridRectTests {
+//    var rect = CGRect(x: 0, y: 0, width: 10, height: 20)
+    func testHorizontalGuidesCount1() {
+        let gr = GridRect(rect, rows: 1, columns: 1)
+        XCTAssertEqual(gr.horizontalGuides.count, 2)
+    }
+    
+    func testHorizontalGuides1() {
+        let gr = GridRect(rect, rows: 1, columns: 1)
+        let first = (CGPoint(x: 0, y:0), CGPoint(x: 10, y: 0))
+        let second = (start: CGPoint(x: 0, y:20), end: CGPoint(x: 10, y: 20))
+        XCTAssert(gr.horizontalGuides[0] == first)
+        XCTAssert(gr.horizontalGuides[1] == second)
+    }
+    
+    func testHorizontalGuidesCount2() {
+        let gr = GridRect(rect, rows: 2, columns: 1)
+        XCTAssertEqual(gr.horizontalGuides.count, 3)
+    }
+    
+    func testHorizontalGuides2() {
+        let gr = GridRect(rect, rows: 2, columns: 1)
+        XCTAssertEqual(gr.horizontalGuides.count, 3)
+        let first = (CGPoint(x: 0, y:0), CGPoint(x: 10, y: 0))
+        let second = (start: CGPoint(x: 0, y:10), end: CGPoint(x: 10, y: 10))
+        let third = (start: CGPoint(x: 0, y:20), end: CGPoint(x: 10, y: 20))
+        XCTAssert(gr.horizontalGuides[0] == first)
+        XCTAssert(gr.horizontalGuides[1] == second)
+        XCTAssert(gr.horizontalGuides[2] == third)
+    }
+    
+    func testVerticalGuidesCount1() {
+        let gr = GridRect(rect, rows: 1, columns: 1)
+        XCTAssertEqual(gr.verticalGuides.count, 2)
+    }
+    
+    func testVerticalGuides1() {
+        let gr = GridRect(rect, rows: 1, columns: 1)
+        let first = (CGPoint(x: 0, y:0), CGPoint(x: 0, y: 20))
+        let second = (start: CGPoint(x: 10, y:0), end: CGPoint(x: 10, y: 20))
+        XCTAssert(gr.verticalGuides[0] == first)
+        XCTAssert(gr.verticalGuides[1] == second)
+    }
+}

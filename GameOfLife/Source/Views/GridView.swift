@@ -76,28 +76,28 @@ class GridView: UIView {
         return spread / CGFloat(dencity)
     }
     
-    func draw(_ datasource: GridViewDataSource, at rect: CGRect, in context: CGContext) {
+    func draw(_ datasource: GridViewDataSource, at gridRect: GridRect, in context: CGContext) {
         context.setStrokeColor(gridColor.cgColor)
         context.setLineWidth(1)
         
-        let xOrigin = rect.minX
-        let yOrigin = rect.minY
-        let xStep = stepLength(spread: rect.size.width, dencity: datasource.width)
+        let xOrigin = gridRect.rect.minX
+        let yOrigin = gridRect.rect.minY
+        let xStep = gridRect.xStep
         for lineNumber in 0...datasource.width {
             let x = xOrigin + CGFloat(lineNumber) * xStep
             let top = CGPoint(x: x, y: yOrigin)
             context.move(to: top)
-            let bottom = CGPoint(x: x, y:  rect.maxY)
+            let bottom = CGPoint(x: x, y:  gridRect.rect.maxY)
             context.addLine(to: bottom)
             context.strokePath()
         }
         
-        let yStep = stepLength(spread: rect.size.height, dencity: datasource.height)
+        let yStep = gridRect.yStep
         for lineNumber in 0...datasource.height {
             let y = yOrigin + CGFloat(lineNumber) * yStep
             let left = CGPoint(x: xOrigin, y: y)
             context.move(to: left)
-            let right = CGPoint(x:rect.maxX, y: y)
+            let right = CGPoint(x: gridRect.rect.maxX, y: y)
             context.addLine(to: right)
             context.strokePath()
         }
@@ -142,7 +142,7 @@ class GridView: UIView {
         
         activeRect = GridRect(rect, rows: datasource.height, columns: datasource.width)
         draw(contents: datasource, at: rect, in: context)
-        draw(datasource, at: rect, in: context)
+        draw(datasource, at: activeRect, in: context)
     }
 }
 

@@ -48,3 +48,36 @@ struct GridRect {
         return (row, column)
     }
 }
+
+typealias GridLine = (start: CGPoint, end: CGPoint)
+extension GridRect {
+    public var horizontalGuides: [GridLine] {
+        var guides = [GridLine]()
+        
+        let xOrigin = rect.minX
+        let yOrigin = rect.minY
+        for guideNumber in 0...rows {
+            let y = yOrigin + CGFloat(guideNumber) * yStep
+            let start = CGPoint(x: xOrigin, y: y)
+            let end = CGPoint(x: rect.maxX, y: y)
+            guides.append((start, end))
+        }
+        
+        return guides
+    }
+    
+    public var verticalGuides: [GridLine] {
+        var guides = [GridLine]()
+        
+        let xOrigin = rect.minX
+        let yOrigin = rect.minY
+        for guideNumber in 0...columns {
+            let x = xOrigin + CGFloat(guideNumber) * xStep
+            let start = CGPoint(x: x, y: yOrigin)
+            let end = CGPoint(x: x, y: rect.maxY)
+            guides.append((start, end))
+        }
+        
+        return guides
+    }
+}
