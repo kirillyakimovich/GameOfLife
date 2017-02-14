@@ -296,24 +296,29 @@ extension Grid where Element == CellState {
 
 // MARK: Moving 
 extension Grid {
-    mutating func moveElement(at row: Int, _ column: Int, by dx: Int, _ dy: Int, placeholder: Element) {
-        if dx == 0 && dy == 0 {
+    mutating func moveElement(from fromRow: Int, _ fromColumn: Int, to toRow: Int, _ toColumn: Int, placeholder: Element) {
+        assert(fromRow >= 0)
+        assert(fromRow < height)
+        assert(toRow >= 0)
+        assert(toRow < height)
+        assert(fromColumn >= 0)
+        assert(fromColumn < width)
+        assert(toColumn >= 0)
+        assert(toColumn < width)
+
+        if fromRow == toRow && fromColumn == toColumn {
             return
         }
-        assert(row >= 0)
-        assert(row < height)
-        let newRow = row + dy
-        assert(newRow >= 0)
-        assert(newRow < height)
-        assert(column >= 0)
-        assert(column < width)
-        let newColumn = column + dx
-        assert(newColumn >= 0)
-        assert(newColumn < width)
         
-        let element = self[row, column]
-        self[row, column] = placeholder
-        self[newRow, newColumn] = element
+        let element = self[fromRow, fromColumn]
+        self[fromRow, fromColumn] = placeholder
+        self[toRow, toColumn] = element
+    }
+    
+    mutating func moveElement(at row: Int, _ column: Int, by dx: Int, _ dy: Int, placeholder: Element) {
+        let toRow = row + dy
+        let toColumn = column + dx
+        moveElement(from: row, column, to: toRow, toColumn, placeholder: placeholder)
     }
 }
 
