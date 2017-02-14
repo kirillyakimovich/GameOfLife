@@ -38,13 +38,12 @@ class GridView: UIView {
     var gridColor = UIColor.gray
     var aliveColor = UIColor.black
     var deadColor = UIColor.white
+    var drawingMode: DrawingMode = .square
     
     var datasource: GridViewDataSource?
     var didSelecteCellAt: ((Int, Int) -> ())?
 
     fileprivate var activeRect: GridRect
-    
-    var drawingMode: DrawingMode = .square
     
     lazy var touchRecognizer: UITapGestureRecognizer = {
         UITapGestureRecognizer(target: self, action: #selector(self.touchAction(_:)) )
@@ -138,6 +137,7 @@ extension GridView {
         guard let cell = activeRect.cell(for: location) else {
             return
         }
+        
         didSelecteCellAt(cell.row, cell.column)
     }
 }
