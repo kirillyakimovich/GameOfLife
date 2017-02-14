@@ -8,6 +8,8 @@
 
 import UIKit
 
+typealias GridCell = (row: Int, column: Int)
+
 struct GridRect {
     let rect: CGRect
     let rows: Int
@@ -33,5 +35,16 @@ struct GridRect {
     
     public var yStep: CGFloat {
         return stepLength(spread: rect.height, dencity: rows)
+    }
+    
+    public func cell(for point: CGPoint) -> GridCell? {
+        guard rect.contains(point) else {
+            return nil
+        }
+        
+        let column = Int(((point.x - rect.minX) / (xStep)).rounded(.towardZero))
+        let row = Int(((point.y - rect.minY) / (yStep)).rounded(.towardZero))
+
+        return (row, column)
     }
 }
