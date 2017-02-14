@@ -80,25 +80,15 @@ class GridView: UIView {
         context.setStrokeColor(gridColor.cgColor)
         context.setLineWidth(1)
         
-        let xOrigin = gridRect.rect.minX
-        let yOrigin = gridRect.rect.minY
-        let xStep = gridRect.xStep
-        for lineNumber in 0...datasource.width {
-            let x = xOrigin + CGFloat(lineNumber) * xStep
-            let top = CGPoint(x: x, y: yOrigin)
-            context.move(to: top)
-            let bottom = CGPoint(x: x, y:  gridRect.rect.maxY)
-            context.addLine(to: bottom)
+        for (start, end) in gridRect.horizontalGuides {
+            context.move(to: start)
+            context.addLine(to: end)
             context.strokePath()
         }
         
-        let yStep = gridRect.yStep
-        for lineNumber in 0...datasource.height {
-            let y = yOrigin + CGFloat(lineNumber) * yStep
-            let left = CGPoint(x: xOrigin, y: y)
-            context.move(to: left)
-            let right = CGPoint(x: gridRect.rect.maxX, y: y)
-            context.addLine(to: right)
+        for (start, end) in gridRect.verticalGuides {
+            context.move(to: start)
+            context.addLine(to: end)
             context.strokePath()
         }
     }
