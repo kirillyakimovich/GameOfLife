@@ -211,11 +211,11 @@
 			isa = PBXGroup;
 			children = (
 				6BBDA9B11E475D71002508C2 /* Grid.swift */,
+				EB2973741E53535800B58721 /* GridCell.swift */,
+				6B7B46901E5248AF00F833DF /* GridRect.swift */,
 				6BBDA9B01E475D71002508C2 /* CellState.swift */,
 				6BBDA9B21E475D71002508C2 /* LifeModel.swift */,
 				6BBDA9B31E475D71002508C2 /* TimeModel.swift */,
-				6B7B46901E5248AF00F833DF /* GridRect.swift */,
-				EB2973741E53535800B58721 /* GridCell.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
