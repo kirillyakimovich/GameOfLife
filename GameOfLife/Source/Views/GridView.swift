@@ -42,6 +42,7 @@ class GridView: UIView {
     
     var datasource: GridViewDataSource?
     var didSelecteCellAt: ((Int, Int) -> ())?
+    var moveElement: ((Int, Int, Int, Int) -> Void)?
 
     fileprivate var activeRect: GridRect
     
@@ -171,15 +172,15 @@ extension GridView {
             fallthrough
         case .changed:
             self.movingView?.frame = cell!.frame
-//        case .ended:
-//            if let startCell = startCell {
-//                moveElement(from: startCell.row, startCell.column, to: cell!.row, cell!.column, placeholder: .dead)
-//                startCell = nil
-//            }
-            
+        case .ended:
+            if let startCell = startCell {
+                moveElement?(startCell.row, startCell.column, cell!.row, cell!.column)
+            }
+            fallthrough
         default:
-            self.movingView?.removeFromSuperview()
-            self.movingView = nil
+            startCell = nil
+            movingView?.removeFromSuperview()
+            movingView = nil
         }
     }
 }

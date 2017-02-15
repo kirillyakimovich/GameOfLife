@@ -17,6 +17,9 @@ class ViewController: UIViewController {
                 lifeModel.delegate = self
                 gridView.datasource = lifeModel
                 gridView.didSelecteCellAt = lifeModel.toggleAt(x:y:)
+                gridView.moveElement = {(fromRow: Int, fromColumn: Int, toRow: Int, toColumn: Int) in
+                    lifeModel.grid.moveElement(from: fromRow, fromColumn, to: toRow, toColumn, placeholder: .dead)
+                }
                 updateView()
             }
         }
