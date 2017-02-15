@@ -33,6 +33,7 @@
 		6BBF935B1E4E56160025D31F /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF935A1E4E56160025D31F /* GridCollectionViewCell.swift */; };
 		6BBF935F1E4E62140025D31F /* GridsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF935E1E4E62140025D31F /* GridsCollectionViewController.swift */; };
 		EB2973751E53535800B58721 /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2973741E53535800B58721 /* GridCell.swift */; };
+		EB64F42B1E545C820029C778 /* LooseGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB64F42A1E545C820029C778 /* LooseGridView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		6BBF935A1E4E56160025D31F /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
 		6BBF935E1E4E62140025D31F /* GridsCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridsCollectionViewController.swift; sourceTree = "<group>"; };
 		EB2973741E53535800B58721 /* GridCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
+		EB64F42A1E545C820029C778 /* LooseGridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LooseGridView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,6 +228,7 @@
 				6BBF935A1E4E56160025D31F /* GridCollectionViewCell.swift */,
 				6BBF935E1E4E62140025D31F /* GridsCollectionViewController.swift */,
 				6BBDA9B71E475D71002508C2 /* GridView.swift */,
+				EB64F42A1E545C820029C778 /* LooseGridView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 				6BBDA9B91E475D71002508C2 /* Grid.swift in Sources */,
 				6BBDA9BE1E475D71002508C2 /* GridView.swift in Sources */,
 				6B3E1AC51DE4D66F00D76B4A /* AppDelegate.swift in Sources */,
+				EB64F42B1E545C820029C778 /* LooseGridView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

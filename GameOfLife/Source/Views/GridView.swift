@@ -41,29 +41,13 @@ class GridView: UIView {
     var drawingMode: DrawingMode = .square
     
     var datasource: GridViewDataSource?
-    var didSelecteCellAt: ((Int, Int) -> ())?
-    var moveElement: ((Int, Int, Int, Int) -> Void)?
 
-    fileprivate var activeRect: GridRect
-    
-    // lazyness is needed to allow selectors to be defined in extensions
-    lazy var touchRecognizer: UITapGestureRecognizer = {
-        UITapGestureRecognizer(target: self, action: #selector(self.touchAction(_:)))
-    } ()
-    
-    lazy var longPressRecognizer: UILongPressGestureRecognizer = {
-        UILongPressGestureRecognizer(target: self, action: #selector(self.longPressAction(_:)))
-    }()
-    
-    fileprivate var startCell: GridCell?
-    fileprivate var movingView: UIView?
-    
+    fileprivate(set) var activeRect: GridRect
+        
     override init(frame: CGRect) {
         activeRect = GridRect(CGRect(x: 0, y: 0, width: frame.width, height: frame.height),
                               rows: 1, columns: 1)
         super.init(frame: frame)
-        self.addGestureRecognizer(touchRecognizer)
-        self.addGestureRecognizer(longPressRecognizer)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -73,8 +57,6 @@ class GridView: UIView {
         activeRect = GridRect(CGRect(x: 0, y: 0, width: 1, height: 1),
                               rows: 1, columns: 1)
         super.init(coder: aDecoder)
-        self.addGestureRecognizer(touchRecognizer)
-        self.addGestureRecognizer(longPressRecognizer)
     }
     
     override func encode(with aCoder: NSCoder) {
@@ -135,52 +117,5 @@ class GridView: UIView {
         activeRect = GridRect(rect, rows: datasource.height, columns: datasource.width)
         draw(contents: datasource, at: activeRect, in: context)
         drawGrid(activeRect, in: context)
-    }
-}
-
-extension GridView {
-    func touchAction(_ sender: UITapGestureRecognizer) {
-        guard let didSelecteCellAt = didSelecteCellAt else {
-            return
-        }
-        
-        let location = sender.location(in: self)
-        guard let cell = activeRect.cell(for: location) else {
-            return
-        }
-        
-        didSelecteCellAt(cell.row, cell.column)
-    }
-}
-
-extension GridView {
-    func longPressAction(_ sender: UILongPressGestureRecognizer) {
-        let location = sender.location(in: self)
-        let cell = activeRect.cell(for: location)
-        if cell == nil {
-            sender.isEnabled = false
-            sender.isEnabled = true
-        } else if self.movingView == nil {
-            self.movingView = UIView(frame: cell!.frame)
-            self.movingView?.backgroundColor = UIColor.red
-            self.addSubview(self.movingView!)
-        }
-        
-        switch sender.state {
-        case .began:
-            startCell = cell
-            fallthrough
-        case .changed:
-            self.movingView?.frame = cell!.frame
-        case .ended:
-            if let startCell = startCell {
-                moveElement?(startCell.row, startCell.column, cell!.row, cell!.column)
-            }
-            fallthrough
-        default:
-            startCell = nil
-            movingView?.removeFromSuperview()
-            movingView = nil
-        }
     }
 }

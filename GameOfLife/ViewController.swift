@@ -30,7 +30,7 @@ class ViewController: UIViewController {
         return model
     }()
     
-    @IBOutlet weak var gridView: GridView!
+    @IBOutlet weak var gridView: LooseGridView!
     
     @IBOutlet weak var sizeStepper: UIStepper!
     @IBAction func onSizeChange(_ sender: UIStepper) {
