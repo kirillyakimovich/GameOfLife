@@ -47,22 +47,26 @@ extension GridRectTests {
     
     func testCellForPointx0y0() {
         let gr = GridRect(rect, rows: 1, columns: 1)
-        XCTAssertEqual(gr.cell(for: CGPoint(x: 0, y: 0)), GridCell(row: 0, column: 0))
+        let targetFrame = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 10, height: 20))
+        XCTAssertEqual(gr.cell(for: CGPoint(x: 0, y: 0)), GridCell(row: 0, column: 0, frame: targetFrame))
     }
     
     func testCellForPointx0y15() {
         let gr = GridRect(rect, rows: 20, columns: 1)
-        XCTAssertEqual(gr.cell(for: CGPoint(x: 0, y: 15)), GridCell(row: 15, column: 0))
+        let targetFrame = CGRect(origin: CGPoint(x: 0, y: 15), size: CGSize(width: 10, height: 1))
+        XCTAssertEqual(gr.cell(for: CGPoint(x: 0, y: 15)), GridCell(row: 15, column: 0, frame: targetFrame))
     }
     
     func testCellForPointx3y10() {
         let gr = GridRect(rect, rows: 10, columns: 5)
-        XCTAssertEqual(gr.cell(for: CGPoint(x: 3, y: 10)), GridCell(row: 5, column: 1))
+        let targetFrame = CGRect(origin: CGPoint(x: 2, y: 10), size: CGSize(width: 2, height: 2))
+        XCTAssertEqual(gr.cell(for: CGPoint(x: 3, y: 10)), GridCell(row: 5, column: 1, frame: targetFrame))
     }
     
     func testCellForPointx7dot5y16dot5() {
         let gr = GridRect(rect, rows: 10, columns: 5)
-        XCTAssertEqual(gr.cell(for: CGPoint(x: 7.5, y: 16.5)), GridCell(row: 8, column: 3))
+        let targetFrame = CGRect(origin: CGPoint(x: 6, y: 16), size: CGSize(width: 2, height: 2))
+        XCTAssertEqual(gr.cell(for: CGPoint(x: 7.5, y: 16.5)), GridCell(row: 8, column: 3, frame: targetFrame))
     }
 }
 
