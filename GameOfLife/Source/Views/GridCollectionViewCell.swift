@@ -25,6 +25,7 @@ class GridCollectionViewCell: UICollectionViewCell {
     var grid: Grid<CellState>? {
         didSet {
             gridView.datasource = grid
+            
         }
     }
 }

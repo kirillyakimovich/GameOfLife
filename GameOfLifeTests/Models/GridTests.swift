@@ -18,6 +18,14 @@ extension Int: Colorable {
 class GridTests: XCTestCase {
     var grid = Grid([[1, 2], [3, 4], [5, 6]])
     
+    func testIsEmptyReturnsTrueForEmtpyGrid() {
+        XCTAssertTrue(Grid<Int>().isEmpty())
+    }
+    
+    func testIsEmptyReturnsFalseForNonEmtpyGrid() {
+        XCTAssertFalse(grid.isEmpty())
+    }
+    
     func testSubscriptForFirstElement() {
         XCTAssertEqual(grid[0, 0], 1)
     }
@@ -84,6 +92,27 @@ class GridTests: XCTestCase {
     func testForwardSubscriptWithBoundedMode() {
         XCTAssertEqual(grid[100, 100, .bounded], nil)
     }
+    
+    func testRectangularSubscriptReturnsEmptyGridIfRowsRangeIsEmpty() {
+        let result = grid[rowsBounds:Range(0..<0), columnsBounds:Range(0..<1)]
+        XCTAssertTrue(result.isEmpty())
+    }
+
+    func testRectangularSubscriptReturnsEmptyGridIfColumnsRangeIsEmpty() {
+        let result = grid[rowsBounds:Range(0..<1), columnsBounds:Range(0..<0)]
+        XCTAssertTrue(result.isEmpty())
+    }
+    
+    func testRectangularSubscriptReturnsEmptyGridIfBothRangesAreEmpty() {
+        let result = grid[rowsBounds:Range(0..<0), columnsBounds:Range(0..<0)]
+        XCTAssertTrue(result.isEmpty())
+    }
+    
+    func testRectangularSubscriptReturnsForWidth1Height1() {
+        let result = grid[rowsBounds:Range(1..<2), columnsBounds:Range(0..<0)]
+        XCTAssertTrue(result.isEmpty())
+    }
+    
 
     func testContainsReturnsTrueForPresetnElement() {
         XCTAssertTrue(grid.contains(3))
@@ -91,14 +120,6 @@ class GridTests: XCTestCase {
     
     func testContainsReturnsFalseForAbsentElement() {
         XCTAssertFalse(grid.contains(300))
-    }
-    
-    func testIsEmptyReturnsTrueForEmtpyGrid() {
-        XCTAssertTrue(Grid<Int>().isEmpty())
-    }
-    
-    func testIsEmptyReturnsFalseForNonEmtpyGrid() {
-        XCTAssertFalse(grid.isEmpty())
     }
 }
 

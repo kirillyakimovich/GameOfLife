@@ -138,6 +138,14 @@ struct Grid<Element> where Element: Equatable & Colorable {
         }
     }
     
+    subscript(rowsBounds rBounds: Range<Int>, columnsBounds cBounds: Range<Int>) -> Grid<Element> {
+        guard !rBounds.isEmpty, !cBounds.isEmpty else {
+            return Grid<Element>()
+        }
+        
+        return Grid([[self[0, 0]]])
+    }
+    
     func contains(_ element: Element) -> Bool {
         return grid.contains(element)
     }
@@ -300,7 +308,7 @@ extension Grid {
         if minRow == maxRow && minColumn == maxColumn {
             return Grid([[element]])
         }
-        
+        // TODO: find ranges to extract
         return Grid([[element]])
     }
 }
