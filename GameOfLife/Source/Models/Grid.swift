@@ -286,6 +286,23 @@ extension Grid {
         }
         return Grid(extracted)
     }
+    
+    func neighborhoodStaring(atRow row: Int, column: Int, by rule: ExtractionRule) -> Grid<Element> {
+        let element = self[row, column]
+        guard rule(element) else {
+            return Grid<Element>()
+        }
+        var minRow = row
+        var maxRow = row
+        var minColumn = column
+        var maxColumn = column
+        
+        if minRow == maxRow && minColumn == maxColumn {
+            return Grid([[element]])
+        }
+        
+        return Grid([[element]])
+    }
 }
 
 extension Grid where Element == CellState {

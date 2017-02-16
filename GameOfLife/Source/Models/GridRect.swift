@@ -89,6 +89,7 @@ extension GridRect {
                       width: xStep,
                       height: yStep)
     }
+    
     /// - Returns: All the cells  row by row, column by column
     func cells() -> [GridCell] {
         var cells = [GridCell]()
