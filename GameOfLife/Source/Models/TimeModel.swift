@@ -35,5 +35,4 @@ class TimeModel {
     @objc func tick() {
         delegate?.tick(self)
     }
-
 }

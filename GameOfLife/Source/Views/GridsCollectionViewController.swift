@@ -39,5 +39,4 @@ class GridsCollectionViewController: UICollectionViewController {
         
         return cell
     }
-
 }
