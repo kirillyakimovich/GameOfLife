@@ -94,11 +94,11 @@ class GridTests: XCTestCase {
     }
     
     func testIsEmptyReturnsTrueForEmtpyGrid() {
-        XCTAssertFalse(Grid<Int>().isEmpty())
+        XCTAssertTrue(Grid<Int>().isEmpty())
     }
     
     func testIsEmptyReturnsFalseForNonEmtpyGrid() {
-        XCTAssertTrue(grid.isEmpty())
+        XCTAssertFalse(grid.isEmpty())
     }
 }
 
@@ -341,7 +341,7 @@ extension GridTests {
         let grid = Grid<CellState>()
         let extracted = grid.extractAlive()
         
-        XCTAssertFalse(extracted.isEmpty())
+        XCTAssertTrue(extracted.isEmpty())
     }
     
     func testExtractionFromFullyAliveIsNotEmpty() {

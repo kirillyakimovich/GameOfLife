@@ -67,7 +67,7 @@ struct Grid<Element> where Element: Equatable & Colorable {
     }
     
     func isEmpty() -> Bool {
-        return width + height > 0
+        return width + height == 0
     }
     
     subscript(row: Int, column: Int) -> Element {
