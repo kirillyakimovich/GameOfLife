@@ -300,10 +300,10 @@ extension Grid {
         guard rule(element) else {
             return Grid<Element>()
         }
-        var minRow = row
-        var maxRow = row
-        var minColumn = column
-        var maxColumn = column
+        let minRow = row
+        let maxRow = row
+        let minColumn = column
+        let maxColumn = column
         
         if minRow == maxRow && minColumn == maxColumn {
             return Grid([[element]])
