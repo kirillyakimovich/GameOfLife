@@ -425,22 +425,22 @@ extension GridTests {
 extension GridTests {
     func testNeighborhoodStartingAtNonConformingElementReturnsEmptyGrid() {
         //var grid = Grid([[1, 2], [3, 4], [5, 6]])
-        let neighborhood = grid.neighborhoodStaring(atRow: 0, column: 1) {return $0 > 3}
+        let neighborhood = grid.neighborhoodStarting(atRow: 0, column: 1) {return $0 > 3}
         XCTAssertTrue(neighborhood.isEmpty())
     }
     
     func testNeighborhoodStartingAtOnlyConformingElementReturnsGridOfWidthOne() {
-        let neighborhood = grid.neighborhoodStaring(atRow: 0, column: 1) {return $0 == 2}
+        let neighborhood = grid.neighborhoodStarting(atRow: 0, column: 1) {return $0 == 2}
         XCTAssertTrue(neighborhood.width == 1)
     }
     
     func testNeighborhoodStartingAtOnlyConformingElementReturnsGridOfHeightOne() {
-        let neighborhood = grid.neighborhoodStaring(atRow: 0, column: 1) {return $0 == 2}
+        let neighborhood = grid.neighborhoodStarting(atRow: 0, column: 1) {return $0 == 2}
         XCTAssertTrue(neighborhood.height == 1)
     }
     
     func testNeighborhoodStartingAtOnlyConformingElementReturnsGridWithOnlyThisElement() {
-        let neighborhood = grid.neighborhoodStaring(atRow: 0, column: 1) {return $0 == 2}
+        let neighborhood = grid.neighborhoodStarting(atRow: 0, column: 1) {return $0 == 2}
         XCTAssertEqual(neighborhood, Grid([[2]]))
     }
 }
