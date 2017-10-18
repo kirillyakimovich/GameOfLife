@@ -38,7 +38,7 @@ class LooseGridView: GridView {
 }
 
 extension LooseGridView {
-    func touchAction(_ sender: UITapGestureRecognizer) {
+    @objc func touchAction(_ sender: UITapGestureRecognizer) {
         guard let didSelecteCellAt = didSelecteCellAt else {
             return
         }
@@ -53,7 +53,7 @@ extension LooseGridView {
 }
 
 extension LooseGridView {
-    func longPressAction(_ sender: UILongPressGestureRecognizer) {
+    @objc func longPressAction(_ sender: UILongPressGestureRecognizer) {
         let location = sender.location(in: self)
         let cell = activeRect.cell(for: location)
         if cell == nil {
